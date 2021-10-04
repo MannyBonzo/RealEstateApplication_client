@@ -5,6 +5,7 @@
  */
 package za.ac.cput.realestateappclient.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Font;
@@ -14,10 +15,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import za.ac.cput.realestateappclient.gui.agentGUI;
 /**
  *
  * Login GUI for authentication
@@ -155,9 +158,27 @@ public class loginGUI extends JFrame implements ActionListener{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
+    //Validation should be method in DAO but Good Job
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+        if (e.getActionCommand().equals("SUBMIT")) {
+            String Username = txtUsername.getText();
+            String Password = txtPassword.getText();
+            
+            if(Username.equals("Agent") && Password.equals("agent")){
+                new agentGUI().SetGUI();
+                this.setVisible(false); 
+            }
+            else if(Username.equals("Admin") && Password.equals("admin")){
+                new adminGUI().SetGUI();
+                this.setVisible(false); 
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Login Unsuccessful. Try Again");
+                txtUsername.setText("");
+                txtPassword.setText("");
+            }
+        }
     }
     
     public static void main(String[] args) {

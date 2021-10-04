@@ -18,14 +18,11 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.SwingConstants;
+import javax.swing.JTable;
 
+import za.ac.cput.realestateappclient.gui.loginGUI;
 /**
- *
  * Agent GUI 
  * @author Manasseh Barnes- 218009615
  */
@@ -42,32 +39,39 @@ public class agentGUI extends JFrame implements ActionListener {
     private JPanel customerDetails; //Grid LAyout in Main Border Layout
     private JPanel customerButtons; // Grid Layout in Main Border Layout
     
+    private JPanel ViewCustomersPanel; //Main Panel -- Border Layout
+    private JPanel ViewHeading; //North in Main Border Layout Panel
+    private JPanel ViewtablePanel; // Center in Main Border Layout Panel
+    private JPanel ViewButtonPanel; // South in Main Border Layout Panel
+    
+    private JTable CustViewTable; //table in Center Panel
     
     //Labels
-    private JLabel lblHeading, lblMenu;
+    private JLabel lblHeading, lblMenu, lblWelcome;
     private JLabel lblPadding1, lblPadding2, lblPadding3, lblPadding4, lblPadding5, lblPadding6, lblPadding7, lblPadding8, lblPadding9, lblPadding10;
     private JLabel lblPadding11,lblPadding12, lblPadding13, lblPadding14, lblPadding15, lblPadding16, lblPadding17, lblPadding18, lblPadding19, lblPadding20, lblPadding21, lblPadding22,
-                    lblPadding23,lblPadding24,lblPadding25,lblPadding26;
+                    lblPadding23,lblPadding24,lblPadding25,lblPadding26, lblPadding27,lblPadding28,lblPadding29,lblPadding30, lblPadding31;
     
     private JLabel lblCustomer, lblCustomerDetails, lblName, lblSurname, lblMobile, lblEmail, lblMarital, lblIdNum;
     private JLabel lblHouseDetails, lblhousenum, lblnumRooms, lblStreetName, lblRentPrice;
     
+    private JLabel lblViewCustomer;
     //TextFields
     private JTextField txtName, txtSurname, txtMobileNum, txtEmail, txtIDnum;
     private JTextField txtHouseNum, txtRooms, txtStreetName, txtRentPrice;
     
     //Buttons
     private JButton btnAdd, btnView, btnReport, btnLogout;
-    private JButton btnSave, btnClear, btnBack;
+    private JButton btnSave, btnBack;
     
     //ComboBoxes
     private JComboBox cboMaritalStatus;
     private JComboBox cboLocation;
     private JComboBox cboAvailable;
     
-    
     //Fonts
     private Font ft1, ft2, ft3, ft4;
+    
     
     agentGUI(){
         //1st view
@@ -83,6 +87,7 @@ public class agentGUI extends JFrame implements ActionListener {
         //Labels
         lblHeading = new JLabel("Haven Group Real Estate");
         lblMenu = new JLabel("MENU");
+        lblWelcome = new JLabel("Welcome Agent");
         
         lblPadding1 = new JLabel("");
         lblPadding2 = new JLabel("");
@@ -103,20 +108,19 @@ public class agentGUI extends JFrame implements ActionListener {
             btnLogout.setForeground(Color.white);
             btnLogout.setFont(ft1);
             btnLogout.setBackground(new Color(77, 132, 129)); 
-            
+        //End 1st VIEW
+        
         //2nd view
         //Panels
         addCustomerPanel = new JPanel();
-            
         customerHeading = new JPanel();
             customerHeading.setBackground(new Color(75,124,78));
         customerDetails = new JPanel();
-            customerHeading.setBackground(new Color(81,99,125));
         customerButtons = new JPanel();
         
         //Labels
         lblCustomer = new JLabel("Add New Customer");
-        lblCustomerDetails = new JLabel("Customer Details");
+        lblCustomerDetails = new JLabel("Customer Details:");
         lblName = new JLabel("Name");
         lblSurname = new JLabel("Surname");
         lblMobile = new JLabel("Mobile Number");
@@ -146,6 +150,11 @@ public class agentGUI extends JFrame implements ActionListener {
         lblPadding24 = new JLabel("");
         lblPadding25 = new JLabel("");
         lblPadding26 = new JLabel("");
+        lblPadding27 = new JLabel("");
+        lblPadding28 = new JLabel("");
+        lblPadding29 = new JLabel("");
+        lblPadding30 = new JLabel("");
+        lblPadding31 = new JLabel("");
            
         //TextFields
         txtName = new JTextField();
@@ -161,18 +170,42 @@ public class agentGUI extends JFrame implements ActionListener {
         
         //Buttons
         btnSave = new JButton("SAVE");
-        btnClear = new JButton("CLEAR");
         btnBack = new JButton("Back");
         //ComboBoxes
         cboMaritalStatus = new JComboBox(new String[]{"Single", "Married", "Divorced", "Widowed"});
         cboLocation = new JComboBox();
         cboAvailable = new JComboBox();
+        //End 2nd VIEW
+        
+        //3rd VIEW
+        //Panels
+        ViewCustomersPanel = new JPanel();
+        ViewHeading = new JPanel();
+            ViewHeading.setBackground(new Color(75,124,78));
+        ViewtablePanel = new JPanel();
+            //ViewtablePanel.setBackground(new Color(75,200,78));
+        ViewButtonPanel = new JPanel();
+            //ViewButtonPanel.setBackground(new Color(75,200,255));    
+            
+        String[][] rec = {
+         {null, null, null, null},
+         {null, null, null, null},
+         {null, null, null, null},
+         {null, null, null, null},
+        };
+        String[] header = {"CustID", "Name", "Surname", "Phone Number"};
+        CustViewTable = new JTable();
+        
+        //Labels
+        lblViewCustomer = new JLabel("All Customers");
+            
         
         //Fonts
         ft1 = new Font("Arial", Font.BOLD, 36);
         ft2 = new Font("Arial", Font.PLAIN, 28);
         ft3 = new Font("Arial", Font.PLAIN, 24);
         ft4 = new Font("Arial", Font.ITALIC, 16);
+        //End Fonts
         
     }
     
@@ -189,6 +222,9 @@ public class agentGUI extends JFrame implements ActionListener {
             lblHeading.setHorizontalAlignment(JLabel.CENTER);
         HeadingPanel.add(lblPadding2);
         
+        WelcomeagentPanel.add(lblWelcome);
+            lblWelcome.setFont(ft1);
+            
         MenuPanel.add(lblMenu);
             lblMenu.setFont(ft1);
             lblMenu.setHorizontalAlignment(JLabel.CENTER);
@@ -196,12 +232,12 @@ public class agentGUI extends JFrame implements ActionListener {
         MenuPanel.add(btnView);
         MenuPanel.add(btnReport);
         MenuPanel.add(btnLogout);
-        
+        //End 1st VIEW
         
         //2nd view in WindowAgentPanel
         addCustomerPanel.setLayout(new BorderLayout());
         customerHeading.setLayout(new FlowLayout());
-        customerDetails.setLayout(new GridLayout(8,5));
+        customerDetails.setLayout(new GridLayout(9,5));
         customerButtons.setLayout(new GridLayout(1,3));
             
         customerHeading.add(lblCustomer); 
@@ -209,7 +245,7 @@ public class agentGUI extends JFrame implements ActionListener {
             lblCustomer.setFont(ft1);
         
         customerDetails.add(lblCustomerDetails);
-            lblCustomerDetails.setHorizontalAlignment(JLabel.LEFT);
+            lblCustomerDetails.setHorizontalAlignment(JLabel.CENTER);
             lblCustomerDetails.setFont(ft2);
                 customerDetails.add(lblPadding11);
                 customerDetails.add(lblPadding12);
@@ -218,16 +254,20 @@ public class agentGUI extends JFrame implements ActionListener {
         customerDetails.add(lblName);
             lblName.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtName);
+            txtName.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(lblSurname);
             lblSurname.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtSurname);
+            txtSurname.setHorizontalAlignment(JLabel.CENTER);
                 customerDetails.add(lblPadding15);
         customerDetails.add(lblMobile);
             lblMobile.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtMobileNum);
+            txtMobileNum.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(lblEmail);
             lblEmail.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtEmail);
+            txtEmail.setHorizontalAlignment(JLabel.CENTER);
                 customerDetails.add(lblPadding16);
         customerDetails.add(lblMarital);
             lblMarital.setHorizontalAlignment(JLabel.CENTER);
@@ -235,6 +275,7 @@ public class agentGUI extends JFrame implements ActionListener {
         customerDetails.add(lblIdNum);
             lblIdNum.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtIDnum);
+            txtIDnum.setHorizontalAlignment(JLabel.CENTER);
                 customerDetails.add(lblPadding17);
                 customerDetails.add(lblPadding18);
                 customerDetails.add(lblPadding19);
@@ -243,6 +284,7 @@ public class agentGUI extends JFrame implements ActionListener {
                 customerDetails.add(lblPadding22);
         customerDetails.add(lblHouseDetails);
             lblHouseDetails.setFont(ft2);
+            lblHouseDetails.setHorizontalAlignment(JLabel.CENTER);
                 customerDetails.add(lblPadding23);
                 customerDetails.add(lblPadding24);
                 customerDetails.add(lblPadding25);
@@ -251,24 +293,50 @@ public class agentGUI extends JFrame implements ActionListener {
         customerDetails.add(lblhousenum);
             lblhousenum.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtHouseNum);
+            txtHouseNum.setHorizontalAlignment(JLabel.CENTER);
+            txtHouseNum.setEditable(false);
         customerDetails.add(lblnumRooms);
             lblnumRooms.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtRooms);
+            txtRooms.setHorizontalAlignment(JLabel.CENTER);
+            txtRooms.setEditable(false);
         customerDetails.add(cboAvailable);
         customerDetails.add(lblStreetName);
             lblStreetName.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtStreetName);
+            txtStreetName.setHorizontalAlignment(JLabel.CENTER);
+            txtStreetName.setEditable(false);
         customerDetails.add(lblRentPrice);
             lblRentPrice.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtRentPrice);
-        
+            txtRentPrice.setHorizontalAlignment(JLabel.CENTER);
+            txtRentPrice.setEditable(false);
+            
+            customerDetails.add(lblPadding27);
+            customerDetails.add(lblPadding28);
+            customerDetails.add(lblPadding29);
+            customerDetails.add(lblPadding30);
+            customerDetails.add(lblPadding31);
+            
         customerButtons.add(btnBack);
             btnBack.setFont(ft3);
         customerButtons.add(btnSave);
             btnSave.setFont(ft3);
-        customerButtons.add(btnClear);
-            btnClear.setFont(ft3);
-            
+        //end 2nd VIEW
+        
+        //3rd View
+        ViewCustomersPanel.setLayout(new BorderLayout());
+        ViewHeading.setLayout(new FlowLayout());
+        ViewtablePanel.setLayout(new FlowLayout());
+        ViewButtonPanel.setLayout(new GridLayout(1,2));
+        
+        ViewHeading.add(lblViewCustomer);
+            lblViewCustomer.setHorizontalAlignment(JLabel.CENTER);
+            lblViewCustomer.setFont(ft1);
+        
+        //CustViewTable(header);
+        ViewtablePanel.add(CustViewTable);
+        
         //1st Window    
         WindowAgentPanel.add(HeadingPanel, BorderLayout.NORTH);
         WindowAgentPanel.add(MenuPanel, BorderLayout.WEST);
@@ -279,12 +347,18 @@ public class agentGUI extends JFrame implements ActionListener {
         addCustomerPanel.add(customerDetails, BorderLayout.CENTER);
         addCustomerPanel.add(customerButtons, BorderLayout.SOUTH);
         
-       
+        //3rd Window
+        ViewCustomersPanel.add(ViewHeading, BorderLayout.NORTH);
+        ViewCustomersPanel.add(ViewtablePanel, BorderLayout.CENTER);
+        ViewCustomersPanel.add(ViewButtonPanel, BorderLayout.SOUTH);
+        
+        
+        btnLogout.addActionListener(this);
         btnBack.addActionListener(this);
         btnAdd.addActionListener(this);
-        
+        btnView.addActionListener(this);
+                
         this.add(WindowAgentPanel);
-        
         this.setPreferredSize(new Dimension(1300, 600));
         this.pack();
         this.setLocationRelativeTo(null);
@@ -301,6 +375,7 @@ public class agentGUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Add New Customer")) {
             WelcomeagentPanel.setVisible(false);
+            ViewCustomersPanel.setVisible(false);
             WindowAgentPanel.add(addCustomerPanel, BorderLayout.CENTER);
             addCustomerPanel.setVisible(true);
         }
@@ -309,5 +384,16 @@ public class agentGUI extends JFrame implements ActionListener {
             WindowAgentPanel.add(WelcomeagentPanel, BorderLayout.CENTER);
             WelcomeagentPanel.setVisible(true);
         }
+        else if(e.getActionCommand().equals("View All Customers")) {
+            WelcomeagentPanel.setVisible(false);
+            addCustomerPanel.setVisible(false);
+            WindowAgentPanel.add(ViewCustomersPanel, BorderLayout.CENTER);
+            ViewCustomersPanel.setVisible(true);
+        }
+        else if(e.getActionCommand().equals("LOG OUT")) {
+            new loginGUI().SetGUI();
+            this.setVisible(false);
+        }
+            
     }
 }
