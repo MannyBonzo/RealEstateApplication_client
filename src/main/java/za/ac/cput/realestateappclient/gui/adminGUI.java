@@ -43,28 +43,36 @@ public class adminGUI extends JFrame implements ActionListener {
     private JPanel agentDetails; // Center in Main Border Layout Panel
     private JPanel agentButtons; // South in Main Border Layout Panel
     
+    private JPanel editPanel;
+    private JPanel editingPanel, editHeadingPanel;
+    private JPanel editHousePanel, editAgentPanel;
+    
     //Labels
     private JLabel lblHeading, lblMenu, lblWelcome;
     private JLabel lblPadding1, lblPadding2, lblPadding3, lblPadding4, lblPadding5, lblPadding6, lblPadding7, lblPadding8, lblPadding9, lblPadding10;
     private JLabel lblPadding11,lblPadding12, lblPadding13, lblPadding14, lblPadding15, lblPadding16, lblPadding17, lblPadding18, lblPadding19, lblPadding20, lblPadding21, lblPadding22,
                     lblPadding23,lblPadding24,lblPadding25,lblPadding26, lblPadding27,lblPadding28,lblPadding29,lblPadding30, lblPadding31;
 
-    private JLabel lblAddHouseHeading,lblhouseDetails, lblhousenum, lblnumRooms, lblStreetName, lblRentPrice, lblCity, lblArea, lblProvince, lblPostalCode;
+    private JLabel lblAddHouseHeading,lblhouseDetails, lblhousenum, lblnumRooms, lblStreetName, lblRentPrice, lblCity, lblArea, lblPostalCode;
     
     private JLabel lblAddAgentHeading, lblagentDetails, lblEmployeeID, lblIDnum, lblagentName, lblagentSurname, lblMobileNum, lblemail;
+    
+    private JLabel lblEdithouseDetails, lblEdithousenum, lblEditnumRooms, lblEditStreetName, lblEditRentPrice, lblEditCity, lblEditArea, lblEditPostalCode;
+    
+    private JLabel lblEditagentDetails, lblEditEmployeeID, lblEditIDnum, lblEditagentName, lblEditagentSurname, lblEditMobileNum, lblEditemail;
     //TextFields
     private JTextField txtHouseNum, txtRooms, txtStreetName, txtRentPrice, txtArea, txtPostalCode;
     
     private JTextField txtEmployeeID, txtID, txtName, txtSurname, txtMobileNum, txtEmail;
     
     //Buttons
-    private JButton btnAdd, btnView, btnLogout;
+    private JButton btnAdd, btnView, btnLogout, btnEdit;
     private JButton btnSaveHouse, btnBackHouse;
     private JButton btnSaveAgent, btnBackAgent;
+    private JButton btnEditHouse, btnEditAgent, btnEditBack;
     
     //ComboBoxes
     private JComboBox cboCity;
-    private JComboBox cboProvince;
 
     //Fonts
     private Font ft1, ft2, ft3, ft4;
@@ -100,6 +108,7 @@ public class adminGUI extends JFrame implements ActionListener {
         //buttons
         btnAdd = new JButton("Add New House");
         btnView = new JButton("Add new Agent");
+        btnEdit = new JButton("Edit House/Agent Details");
         btnLogout = new JButton("LOG OUT");
             btnLogout.setForeground(Color.white);
             btnLogout.setFont(ft1);
@@ -121,7 +130,6 @@ public class adminGUI extends JFrame implements ActionListener {
         lblStreetName = new JLabel("Street Name: ");
         lblCity = new JLabel("City: ");
         lblArea = new JLabel("Area: ");
-        lblProvince = new JLabel("Province: ");
         lblPostalCode = new JLabel("Postal Code: ");
         lblnumRooms = new JLabel("Number of Rooms: ");
         lblRentPrice = new JLabel("Rental Price(p/m): ");
@@ -162,7 +170,6 @@ public class adminGUI extends JFrame implements ActionListener {
         
         //ComboBoxes
         cboCity = new JComboBox();
-        cboProvince = new JComboBox();
         //End 2nd VIEW
         
         //3rd VIEW
@@ -196,7 +203,8 @@ public class adminGUI extends JFrame implements ActionListener {
         //Buttons
         btnSaveAgent = new JButton("SAVE");
         btnBackAgent = new JButton("Back");
-        
+        //END 3rd View
+
         //Fonts
         ft1 = new Font("Arial", Font.BOLD, 36);
         ft2 = new Font("Arial", Font.PLAIN, 28);
@@ -211,7 +219,7 @@ public class adminGUI extends JFrame implements ActionListener {
         //1st view
         WindowAdminPanel.setLayout(new BorderLayout());
         HeadingPanel.setLayout(new GridLayout(1,3));
-        MenuPanel.setLayout(new GridLayout(4,1));
+        MenuPanel.setLayout(new GridLayout(5,1));
           
         HeadingPanel.add(lblPadding1);
             HeadingPanel.add(lblHeading);
@@ -226,13 +234,14 @@ public class adminGUI extends JFrame implements ActionListener {
             lblMenu.setHorizontalAlignment(JLabel.CENTER);
         MenuPanel.add(btnAdd);
         MenuPanel.add(btnView);
+        MenuPanel.add(btnEdit);
         MenuPanel.add(btnLogout);
         //End 1st VIEW
         
         //2nd view in WindowAdminPanel
         addHousePanel.setLayout(new BorderLayout());
         houseHeading.setLayout(new FlowLayout());
-        houseDetails.setLayout(new GridLayout(10,2));
+        houseDetails.setLayout(new GridLayout(9,2));
         houseButtons.setLayout(new GridLayout(1,2));
             
         houseHeading.add(lblAddHouseHeading); 
@@ -259,9 +268,7 @@ public class adminGUI extends JFrame implements ActionListener {
             lblArea.setHorizontalAlignment(JLabel.CENTER);
         houseDetails.add(txtArea);
             txtArea.setHorizontalAlignment(JLabel.CENTER);
-        houseDetails.add(lblProvince);
-            lblProvince.setHorizontalAlignment(JLabel.CENTER);
-        houseDetails.add(cboProvince);
+        
         houseDetails.add(lblPostalCode);
             lblPostalCode.setHorizontalAlignment(JLabel.CENTER);
         houseDetails.add(txtPostalCode);
@@ -334,7 +341,7 @@ public class adminGUI extends JFrame implements ActionListener {
             btnSaveAgent.setFont(ft3);    
         //END 3rd VIEW    
         
-        
+ 
         //1st Window    
         WindowAdminPanel.add(HeadingPanel, BorderLayout.NORTH);
         WindowAdminPanel.add(MenuPanel, BorderLayout.WEST);
@@ -350,12 +357,13 @@ public class adminGUI extends JFrame implements ActionListener {
         addAgentPanel.add(agentDetails, BorderLayout.CENTER);
         addAgentPanel.add(agentButtons, BorderLayout.SOUTH);
         
-        
+ 
         btnLogout.addActionListener(this);
         btnBackHouse.addActionListener(this);
         btnBackAgent.addActionListener(this);
         btnAdd.addActionListener(this);
         btnView.addActionListener(this);
+        btnEdit.addActionListener(this);
                 
         this.add(WindowAdminPanel);
         this.setPreferredSize(new Dimension(1300, 600));
@@ -394,5 +402,6 @@ public class adminGUI extends JFrame implements ActionListener {
             new loginGUI().SetGUI();
             this.setVisible(false);
         }
+        
     }
 }

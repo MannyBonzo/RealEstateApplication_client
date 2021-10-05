@@ -50,9 +50,9 @@ public class agentGUI extends JFrame implements ActionListener {
     private JLabel lblHeading, lblMenu, lblWelcome;
     private JLabel lblPadding1, lblPadding2, lblPadding3, lblPadding4, lblPadding5, lblPadding6, lblPadding7, lblPadding8, lblPadding9, lblPadding10;
     private JLabel lblPadding11,lblPadding12, lblPadding13, lblPadding14, lblPadding15, lblPadding16, lblPadding17, lblPadding18, lblPadding19, lblPadding20, lblPadding21, lblPadding22,
-                    lblPadding23,lblPadding24,lblPadding25,lblPadding26, lblPadding27,lblPadding28,lblPadding29,lblPadding30, lblPadding31;
+                    lblPadding23,lblPadding24,lblPadding25,lblPadding26, lblPadding27,lblPadding28,lblPadding29,lblPadding30, lblPadding31, lblPadding32, lblPadding33;
     
-    private JLabel lblCustomer, lblCustomerDetails, lblName, lblSurname, lblMobile, lblEmail, lblMarital, lblIdNum;
+    private JLabel lblCustomer, lblCustomerDetails, lblName, lblSurname, lblMobile, lblEmail,lblIdNum;
     private JLabel lblHouseDetails, lblhousenum, lblnumRooms, lblStreetName, lblRentPrice;
     
     private JLabel lblViewCustomer;
@@ -65,7 +65,6 @@ public class agentGUI extends JFrame implements ActionListener {
     private JButton btnSave, btnBack;
     
     //ComboBoxes
-    private JComboBox cboMaritalStatus;
     private JComboBox cboLocation;
     private JComboBox cboAvailable;
     
@@ -125,7 +124,6 @@ public class agentGUI extends JFrame implements ActionListener {
         lblSurname = new JLabel("Surname");
         lblMobile = new JLabel("Mobile Number");
         lblEmail = new JLabel("Email Address");
-        lblMarital = new JLabel("Marital Status");
         lblIdNum = new JLabel("ID Number");
         
         lblHouseDetails = new JLabel("Rent Details: "); 
@@ -155,7 +153,9 @@ public class agentGUI extends JFrame implements ActionListener {
         lblPadding29 = new JLabel("");
         lblPadding30 = new JLabel("");
         lblPadding31 = new JLabel("");
-           
+        lblPadding32 = new JLabel("");
+        lblPadding33 = new JLabel("");   
+        
         //TextFields
         txtName = new JTextField();
         txtSurname = new JTextField(); 
@@ -172,7 +172,6 @@ public class agentGUI extends JFrame implements ActionListener {
         btnSave = new JButton("SAVE");
         btnBack = new JButton("Back");
         //ComboBoxes
-        cboMaritalStatus = new JComboBox(new String[]{"Single", "Married", "Divorced", "Widowed"});
         cboLocation = new JComboBox();
         cboAvailable = new JComboBox();
         //End 2nd VIEW
@@ -199,7 +198,6 @@ public class agentGUI extends JFrame implements ActionListener {
         //Labels
         lblViewCustomer = new JLabel("All Customers");
             
-        
         //Fonts
         ft1 = new Font("Arial", Font.BOLD, 36);
         ft2 = new Font("Arial", Font.PLAIN, 28);
@@ -269,9 +267,6 @@ public class agentGUI extends JFrame implements ActionListener {
         customerDetails.add(txtEmail);
             txtEmail.setHorizontalAlignment(JLabel.CENTER);
                 customerDetails.add(lblPadding16);
-        customerDetails.add(lblMarital);
-            lblMarital.setHorizontalAlignment(JLabel.CENTER);
-        customerDetails.add(cboMaritalStatus);
         customerDetails.add(lblIdNum);
             lblIdNum.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtIDnum);
@@ -282,6 +277,8 @@ public class agentGUI extends JFrame implements ActionListener {
                 customerDetails.add(lblPadding20);
                 customerDetails.add(lblPadding21);
                 customerDetails.add(lblPadding22);
+                customerDetails.add(lblPadding32);
+                customerDetails.add(lblPadding33);
         customerDetails.add(lblHouseDetails);
             lblHouseDetails.setFont(ft2);
             lblHouseDetails.setHorizontalAlignment(JLabel.CENTER);
