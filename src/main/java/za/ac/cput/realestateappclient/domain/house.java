@@ -10,11 +10,12 @@ package za.ac.cput.realestateappclient.domain;
  * @author smann
  */
 public class house {
-    private int houseNum, postalCode, numofRooms, rentalPrice;
+    private int houseID, houseNum, postalCode, numofRooms, rentalPrice;
     private String streetName, city, area;
     private boolean isAvailable;
 
-    public house(int houseNum, int postalCode, int numofRooms, int rentalPrice, String streetName, String city, String area, boolean isAvailable) {
+    public house(int houseID, int houseNum, int postalCode, int numofRooms, int rentalPrice, String streetName, String city, String area, boolean isAvailable) {
+        this.houseID = houseID;
         this.houseNum = houseNum;
         this.postalCode = postalCode;
         this.numofRooms = numofRooms;
@@ -25,6 +26,14 @@ public class house {
         this.isAvailable = isAvailable;
     }
 
+    public int getHouseID() {
+        return houseID;
+    }
+
+    public void setHouseID(int houseID) {
+        this.houseID = houseID;
+    }
+    
     public int getHouseNum() {
         return houseNum;
     }
@@ -91,7 +100,7 @@ public class house {
 
     @Override
     public String toString() {
-        return "house{" + "houseNum=" + houseNum + ", postalCode=" + postalCode + ", numofRooms=" + numofRooms + ", rentalPrice=" + rentalPrice + ", streetName=" + streetName + ", city=" + city + ", area=" + area + ", isAvailable=" + isAvailable + '}';
+        return "house{" + "houseID=" + houseID + ", houseNum=" + houseNum + ", postalCode=" + postalCode + ", numofRooms=" + numofRooms + ", rentalPrice=" + rentalPrice + ", streetName=" + streetName + ", city=" + city + ", area=" + area + ", isAvailable=" + isAvailable + '}';
     }
     
 }

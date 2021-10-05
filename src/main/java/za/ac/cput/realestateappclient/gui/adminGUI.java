@@ -43,41 +43,51 @@ public class adminGUI extends JFrame implements ActionListener {
     private JPanel agentDetails; // Center in Main Border Layout Panel
     private JPanel agentButtons; // South in Main Border Layout Panel
     
-    private JPanel editPanel;
-    private JPanel editingPanel, editHeadingPanel;
-    private JPanel editHousePanel, editAgentPanel;
+    private JPanel editPanel; //GridLayout
+    private JPanel editHousePanel, editAgentPanel; //Grid Layouts
     
     //Labels
     private JLabel lblHeading, lblMenu, lblWelcome;
     private JLabel lblPadding1, lblPadding2, lblPadding3, lblPadding4, lblPadding5, lblPadding6, lblPadding7, lblPadding8, lblPadding9, lblPadding10;
     private JLabel lblPadding11,lblPadding12, lblPadding13, lblPadding14, lblPadding15, lblPadding16, lblPadding17, lblPadding18, lblPadding19, lblPadding20, lblPadding21, lblPadding22,
                     lblPadding23,lblPadding24,lblPadding25,lblPadding26, lblPadding27,lblPadding28,lblPadding29,lblPadding30, lblPadding31;
-
-    private JLabel lblAddHouseHeading,lblhouseDetails, lblhousenum, lblnumRooms, lblStreetName, lblRentPrice, lblCity, lblArea, lblPostalCode;
+    
+    private JLabel lblPadding40, lblPadding41, lblPadding42, lblPadding43, lblPadding44, lblPadding45, lblPadding46, lblPadding47, lblPadding48, lblPadding49, lblPadding50;
+    
+    private JLabel lblPadding51, lblPadding52, lblPadding53, lblPadding54, lblPadding55, lblPadding56, lblPadding57, lblPadding58, lblPadding59, lblPadding60, lblPadding61;
+    
+    private JLabel lblAddHouseHeading,lblhouseDetails, lblhouseID,lblhousenum, lblnumRooms, lblStreetName, lblRentPrice, lblCity, lblArea, lblPostalCode;
     
     private JLabel lblAddAgentHeading, lblagentDetails, lblEmployeeID, lblIDnum, lblagentName, lblagentSurname, lblMobileNum, lblemail;
     
-    private JLabel lblEdithouseDetails, lblEdithousenum, lblEditnumRooms, lblEditStreetName, lblEditRentPrice, lblEditCity, lblEditArea, lblEditPostalCode;
+    private JLabel lblEdithouseDetails, lblEdithouseID, lblEdithousenum, lblEditnumRooms, lblEditStreetName, lblEditRentPrice, lblEditCity, lblEditArea, lblEditPostalCode;
     
-    private JLabel lblEditagentDetails, lblEditEmployeeID, lblEditIDnum, lblEditagentName, lblEditagentSurname, lblEditMobileNum, lblEditemail;
+    private JLabel lblEditagentDetails, lblEditagentEmployeeID, lblEditagentIDnum, lblEditagentName, lblEditagentSurname, lblEditagentMobileNum, lblEditagentemail;
     //TextFields
-    private JTextField txtHouseNum, txtRooms, txtStreetName, txtRentPrice, txtArea, txtPostalCode;
+    private JTextField txthouseID, txtHouseNum, txtRooms, txtStreetName, txtRentPrice, txtArea, txtPostalCode;
     
     private JTextField txtEmployeeID, txtID, txtName, txtSurname, txtMobileNum, txtEmail;
+    
+    private JTextField txtEditHouseID, txtEditHouseNum, txtEditRooms, txtEditCity, txtEditStreetName, txtEditRentPrice, txtEditArea, txtEditPostalCode; 
+    
+    private JTextField txtEditagentIDnum, txtEditagentName, txtEditagentSurname, txtEditagentMobileNum, txtEditagentemail;
     
     //Buttons
     private JButton btnAdd, btnView, btnLogout, btnEdit;
     private JButton btnSaveHouse, btnBackHouse;
     private JButton btnSaveAgent, btnBackAgent;
-    private JButton btnEditHouse, btnEditAgent, btnEditBack;
+    private JButton btnEditHouseBack, btnEditHouseUpdate;
+    private JButton btnEditAgentBack, btnEditAgentUpdate;
     
     //ComboBoxes
     private JComboBox cboCity;
+    private JComboBox cboEdithouseID;
+    private JComboBox cboEditagentEmployeeID;
 
     //Fonts
     private Font ft1, ft2, ft3, ft4;
     
-    
+                                                    
     adminGUI(){
         //1st view
         //Panels
@@ -126,6 +136,7 @@ public class adminGUI extends JFrame implements ActionListener {
         //Labels
         lblAddHouseHeading = new JLabel("Add New House");
         lblhouseDetails = new JLabel("House Details: "); 
+        lblhouseID = new JLabel("House ID: ");
         lblhousenum = new JLabel("House Number: "); 
         lblStreetName = new JLabel("Street Name: ");
         lblCity = new JLabel("City: ");
@@ -157,6 +168,7 @@ public class adminGUI extends JFrame implements ActionListener {
         lblPadding31 = new JLabel("");
            
         //TextFields
+        txthouseID = new JTextField();
         txtHouseNum = new JTextField(); 
         txtRooms = new JTextField(); 
         txtStreetName = new JTextField(); 
@@ -204,7 +216,86 @@ public class adminGUI extends JFrame implements ActionListener {
         btnSaveAgent = new JButton("SAVE");
         btnBackAgent = new JButton("Back");
         //END 3rd View
-
+        
+        //4th View - Edit Panel
+        //Panels
+        editPanel = new JPanel();
+        editHousePanel = new JPanel();
+            //editHousePanel.setBackground(new Color(50, 105, 104));
+        editAgentPanel = new JPanel();
+            //editAgentPanel.setBackground(new Color(80, 105, 104));
+        
+        //Labels
+        lblEdithouseID = new JLabel("House ID");
+        lblEdithouseDetails = new JLabel("Edit House Details");
+        lblEdithousenum = new JLabel("House Number: ");
+        lblEditStreetName = new JLabel("Street Name: ");
+        lblEditCity = new JLabel("City: ");
+        lblEditArea = new JLabel("Area: ");
+        lblEditPostalCode = new JLabel("Postal Code: ");
+        lblEditnumRooms = new JLabel("Number of Rooms: ");
+        lblEditRentPrice = new JLabel("Rental Price(p/m): ");
+        
+        lblEditagentDetails = new JLabel("Edit Agent Details");
+        lblEditagentEmployeeID = new JLabel("Employee ID: ");
+        lblEditagentIDnum = new JLabel("ID Number: ");
+        lblEditagentName = new JLabel("Name: ");
+        lblEditagentSurname = new JLabel("Surname: ");
+        lblEditagentMobileNum = new JLabel("Mobile Number: ");
+        lblEditagentemail = new JLabel("Email Address: ");
+        
+        lblPadding40 = new JLabel("");
+        lblPadding41 = new JLabel("");
+        lblPadding42 = new JLabel("");
+        lblPadding43 = new JLabel("");
+        lblPadding44 = new JLabel("");
+        lblPadding45 = new JLabel("");
+        lblPadding46 = new JLabel("");
+        lblPadding47 = new JLabel("");
+        lblPadding48 = new JLabel("");
+        lblPadding49 = new JLabel("");
+        lblPadding50 = new JLabel("");
+        
+        lblPadding51 = new JLabel("");
+        lblPadding52 = new JLabel("");
+        lblPadding53 = new JLabel("");
+        lblPadding54 = new JLabel("");
+        lblPadding55 = new JLabel("");
+        lblPadding56 = new JLabel("");
+        lblPadding57 = new JLabel("");
+        lblPadding58 = new JLabel("");
+        lblPadding59 = new JLabel("");
+        lblPadding60 = new JLabel("");
+        lblPadding61 = new JLabel("");
+        
+        //TextFields
+        txtEditHouseID = new JTextField();
+        txtEditHouseNum = new JTextField();
+        txtEditStreetName = new JTextField();
+        txtEditCity = new JTextField();
+        txtEditArea = new JTextField();
+        txtEditPostalCode = new JTextField();
+        txtEditRooms = new JTextField();
+        txtEditRentPrice = new JTextField(); 
+        
+        txtEditagentIDnum = new JTextField();
+        txtEditagentName = new JTextField();
+        txtEditagentSurname = new JTextField();
+        txtEditagentMobileNum = new JTextField();
+        txtEditagentemail = new JTextField();
+        
+        //ComboBox
+        cboEdithouseID = new JComboBox();
+        cboEditagentEmployeeID = new JComboBox();
+        
+        //Buttons
+        btnEditHouseBack = new JButton("Back");
+        btnEditHouseUpdate = new JButton("Update");
+        btnEditAgentBack = new JButton("Back");
+        btnEditAgentUpdate = new JButton("Update");
+        //End 4th View - Edit details
+        
+        
         //Fonts
         ft1 = new Font("Arial", Font.BOLD, 36);
         ft2 = new Font("Arial", Font.PLAIN, 28);
@@ -241,7 +332,7 @@ public class adminGUI extends JFrame implements ActionListener {
         //2nd view in WindowAdminPanel
         addHousePanel.setLayout(new BorderLayout());
         houseHeading.setLayout(new FlowLayout());
-        houseDetails.setLayout(new GridLayout(9,2));
+        houseDetails.setLayout(new GridLayout(10,2));
         houseButtons.setLayout(new GridLayout(1,2));
             
         houseHeading.add(lblAddHouseHeading); 
@@ -252,6 +343,10 @@ public class adminGUI extends JFrame implements ActionListener {
             lblhouseDetails.setHorizontalAlignment(JLabel.CENTER);
             lblhouseDetails.setFont(ft2);
                 houseDetails.add(lblPadding11);
+        houseDetails.add(lblhouseID);
+            lblhouseID.setHorizontalAlignment(JLabel.CENTER);
+        houseDetails.add(txthouseID);
+            txthouseID.setHorizontalAlignment(JLabel.CENTER);
         houseDetails.add(lblhousenum);
             lblhousenum.setHorizontalAlignment(JLabel.CENTER);
         houseDetails.add(txtHouseNum);
@@ -341,7 +436,118 @@ public class adminGUI extends JFrame implements ActionListener {
             btnSaveAgent.setFont(ft3);    
         //END 3rd VIEW    
         
- 
+        //4th View - Edit Panel
+        editPanel.setLayout(new GridLayout(2,1));
+        editHousePanel.setLayout(new GridLayout(9,3));
+        editAgentPanel.setLayout(new GridLayout(7,3));
+        
+        editHousePanel.add(lblEdithouseDetails);
+            lblEdithouseDetails.setFont(ft2);
+            lblEdithouseDetails.setHorizontalAlignment(JLabel.CENTER);
+        editHousePanel.add(lblEdithouseID);
+            lblEdithouseID.setHorizontalAlignment(JLabel.CENTER);
+        editHousePanel.add(cboEdithouseID);
+                editHousePanel.add(lblPadding40);
+                editHousePanel.add(lblPadding41);
+                editHousePanel.add(lblPadding42);
+          
+        editHousePanel.add(lblEdithousenum);
+            lblEdithousenum.setHorizontalAlignment(JLabel.CENTER);
+        editHousePanel.add(txtEditHouseNum);
+            txtEditHouseNum.setHorizontalAlignment(JLabel.CENTER);
+        
+        editHousePanel.add(btnEditHouseBack);
+
+        editHousePanel.add(lblEditStreetName);
+            lblEditStreetName.setHorizontalAlignment(JLabel.CENTER);
+        editHousePanel.add(txtEditStreetName);
+            txtEditStreetName.setHorizontalAlignment(JLabel.CENTER);
+        
+        editHousePanel.add(lblPadding49);  
+        
+        editHousePanel.add(lblEditCity);
+            lblEditCity.setHorizontalAlignment(JLabel.CENTER);
+        editHousePanel.add(txtEditCity);
+            txtEditCity.setHorizontalAlignment(JLabel.CENTER);
+        
+        editHousePanel.add(lblPadding45);
+        
+        editHousePanel.add(lblEditArea);
+            lblEditArea.setHorizontalAlignment(JLabel.CENTER);
+        editHousePanel.add(txtEditArea);
+            txtEditArea.setHorizontalAlignment(JLabel.CENTER);
+        
+        editHousePanel.add(lblPadding46);
+        
+        editHousePanel.add(lblEditPostalCode);
+            lblEditPostalCode.setHorizontalAlignment(JLabel.CENTER);
+        editHousePanel.add(txtEditPostalCode);
+            txtEditPostalCode.setHorizontalAlignment(JLabel.CENTER);
+            
+        editHousePanel.add(lblPadding47);
+        
+        editHousePanel.add(lblEditnumRooms);
+            lblEditnumRooms.setHorizontalAlignment(JLabel.CENTER);
+        editHousePanel.add(txtEditRooms);
+            txtEditRooms.setHorizontalAlignment(JLabel.CENTER);
+        
+        editHousePanel.add(lblPadding48);
+        
+        editHousePanel.add(lblEditRentPrice);
+            lblEditRentPrice.setHorizontalAlignment(JLabel.CENTER);
+        editHousePanel.add(txtEditRentPrice);
+            txtEditRentPrice.setHorizontalAlignment(JLabel.CENTER);
+               
+        editHousePanel.add(btnEditHouseUpdate);    
+        //end house panel edit
+        
+        //Agent Panel Edit
+        editAgentPanel.add(lblEditagentDetails);
+            lblEditagentDetails.setFont(ft2);
+            lblEditagentDetails.setHorizontalAlignment(JLabel.CENTER);
+        editAgentPanel.add(lblEditagentEmployeeID);
+            lblEditagentEmployeeID.setHorizontalAlignment(JLabel.CENTER);
+        editAgentPanel.add(cboEditagentEmployeeID);
+                editAgentPanel.add(lblPadding51);
+                editAgentPanel.add(lblPadding52);
+                editAgentPanel.add(lblPadding53);
+        
+        editAgentPanel.add(lblEditagentIDnum);
+            lblEditagentIDnum.setHorizontalAlignment(JLabel.CENTER);
+        editAgentPanel.add(txtEditagentIDnum);
+            lblEditagentIDnum.setHorizontalAlignment(JLabel.CENTER);
+        
+            editAgentPanel.add(btnEditAgentBack);
+        
+        editAgentPanel.add(lblEditagentName);
+            lblEditagentName.setHorizontalAlignment(JLabel.CENTER);
+        editAgentPanel.add(txtEditagentName);
+            txtEditagentName.setHorizontalAlignment(JLabel.CENTER);
+        
+            editAgentPanel.add(lblPadding55);
+        
+        editAgentPanel.add(lblEditagentSurname);
+            lblEditagentSurname.setHorizontalAlignment(JLabel.CENTER);
+        editAgentPanel.add(txtEditagentSurname);
+            txtEditagentSurname.setHorizontalAlignment(JLabel.CENTER);
+            
+            editAgentPanel.add(lblPadding56);
+        
+        editAgentPanel.add(lblEditagentMobileNum);
+            lblEditagentMobileNum.setHorizontalAlignment(JLabel.CENTER);
+        editAgentPanel.add(txtEditagentMobileNum);
+            txtEditagentMobileNum.setHorizontalAlignment(JLabel.CENTER);
+        
+            editAgentPanel.add(lblPadding57);
+        
+        editAgentPanel.add(lblEditagentemail);
+            lblEditagentemail.setHorizontalAlignment(JLabel.CENTER);
+        editAgentPanel.add(txtEditagentemail);
+            txtEditagentemail.setHorizontalAlignment(JLabel.CENTER);
+        
+            editAgentPanel.add(btnEditAgentUpdate);
+        
+   
         //1st Window    
         WindowAdminPanel.add(HeadingPanel, BorderLayout.NORTH);
         WindowAdminPanel.add(MenuPanel, BorderLayout.WEST);
@@ -357,6 +563,9 @@ public class adminGUI extends JFrame implements ActionListener {
         addAgentPanel.add(agentDetails, BorderLayout.CENTER);
         addAgentPanel.add(agentButtons, BorderLayout.SOUTH);
         
+        //4th Window - Edit 
+        editPanel.add(editHousePanel);
+        editPanel.add(editAgentPanel);
  
         btnLogout.addActionListener(this);
         btnBackHouse.addActionListener(this);
@@ -364,7 +573,12 @@ public class adminGUI extends JFrame implements ActionListener {
         btnAdd.addActionListener(this);
         btnView.addActionListener(this);
         btnEdit.addActionListener(this);
-                
+        
+        btnEditHouseBack.addActionListener(this);
+        btnEditHouseUpdate.addActionListener(this);
+        btnEditAgentBack.addActionListener(this);
+        btnEditAgentUpdate.addActionListener(this);
+        
         this.add(WindowAdminPanel);
         this.setPreferredSize(new Dimension(1300, 600));
         this.pack();
@@ -383,20 +597,30 @@ public class adminGUI extends JFrame implements ActionListener {
         if (e.getActionCommand().equals("Add New House")) {
             WelcomeAdminPanel.setVisible(false);
             addAgentPanel.setVisible(false);
+            editPanel.setVisible(false);
             WindowAdminPanel.add(addHousePanel, BorderLayout.CENTER);
             addHousePanel.setVisible(true);
         }
         else if(e.getActionCommand().equals("Add new Agent")) {
             WelcomeAdminPanel.setVisible(false);
             addHousePanel.setVisible(false);
+            editPanel.setVisible(false);
             WindowAdminPanel.add(addAgentPanel, BorderLayout.CENTER);
             addAgentPanel.setVisible(true);
         }
         else if(e.getActionCommand().equals("Back")) {
             addHousePanel.setVisible(false);
             addAgentPanel.setVisible(false);
+            editPanel.setVisible(false);
             WindowAdminPanel.add(WelcomeAdminPanel, BorderLayout.CENTER);
             WelcomeAdminPanel.setVisible(true);
+        }
+        else if(e.getActionCommand().equals("Edit House/Agent Details")) {
+            WelcomeAdminPanel.setVisible(false);
+            addAgentPanel.setVisible(false);
+            addHousePanel.setVisible(false);
+            WindowAdminPanel.add(editPanel, BorderLayout.CENTER);
+            editPanel.setVisible(true);
         }
         else if(e.getActionCommand().equals("LOG OUT")) {
             new loginGUI().SetGUI();
