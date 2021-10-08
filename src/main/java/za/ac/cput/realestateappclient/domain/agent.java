@@ -12,14 +12,16 @@ package za.ac.cput.realestateappclient.domain;
 public class agent {
     private int employeeID, IDnumber, mobileNum;
     private String Name, Surname, emailAddress;
+    private boolean isActive;
 
-    public agent(int employeeID, int IDnumber, int mobileNum, String Name, String Surname, String emailAddress) {
+    public agent(int employeeID, int IDnumber, String Name, String Surname, int mobileNum, String emailAddress, boolean isActive) {
         this.employeeID = employeeID;
         this.IDnumber = IDnumber;
-        this.mobileNum = mobileNum;
         this.Name = Name;
         this.Surname = Surname;
+        this.mobileNum = mobileNum;
         this.emailAddress = emailAddress;
+        this.isActive = isActive;
     }
 
     public int getEmployeeID() {
@@ -70,10 +72,17 @@ public class agent {
         this.emailAddress = emailAddress;
     }
 
+    public boolean isIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
     @Override
     public String toString() {
-        return "agent{" + "employeeID=" + employeeID + ", IDnumber=" + IDnumber + ", mobileNum=" + mobileNum + ", Name=" + Name + ", Surname=" + Surname + ", emailAddress=" + emailAddress + '}';
+        return "agent{" + "employeeID=" + employeeID + ", IDnumber=" + IDnumber + ", mobileNum=" + mobileNum + ", Name=" + Name + ", Surname=" + Surname + ", emailAddress=" + emailAddress + ", isActive=" + isActive + '}';
     }
-    
-    
+
 }

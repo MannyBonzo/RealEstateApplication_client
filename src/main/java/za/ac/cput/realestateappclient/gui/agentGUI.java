@@ -19,7 +19,13 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import za.ac.cput.realestateappclient.client.client;
+
+import za.ac.cput.realestateappclient.domain.customer;
+import za.ac.cput.realestateappclient.domain.agent;
+import za.ac.cput.realestateappclient.domain.house;
 
 import za.ac.cput.realestateappclient.gui.loginGUI;
 /**
@@ -27,6 +33,7 @@ import za.ac.cput.realestateappclient.gui.loginGUI;
  * @author Manasseh Barnes- 218009615
  */
 public class agentGUI extends JFrame implements ActionListener {
+    private client server;
     
     //Panels 
     private JPanel WindowAgentPanel; //Main Border Layout 
@@ -52,12 +59,12 @@ public class agentGUI extends JFrame implements ActionListener {
     private JLabel lblPadding11,lblPadding12, lblPadding13, lblPadding14, lblPadding15, lblPadding16, lblPadding17, lblPadding18, lblPadding19, lblPadding20, lblPadding21, lblPadding22,
                     lblPadding23,lblPadding24,lblPadding25,lblPadding26, lblPadding27,lblPadding28,lblPadding29,lblPadding30, lblPadding31, lblPadding32, lblPadding33;
     
-    private JLabel lblCustomer, lblCustomerDetails, lblName, lblSurname, lblMobile, lblEmail,lblIdNum;
+    private JLabel lblCustomer, lblCustomerDetails, lblName, lblSurname, lblMobile, lblEmail,lblIdNum, lblcustID;
     private JLabel lblHouseDetails, lblhousenum, lblnumRooms, lblStreetName, lblRentPrice;
     
     private JLabel lblViewCustomer;
     //TextFields
-    private JTextField txtName, txtSurname, txtMobileNum, txtEmail, txtIDnum;
+    private JTextField txtName, txtSurname, txtMobileNum, txtEmail, txtIDnum, txtCustID;
     private JTextField txtHouseNum, txtRooms, txtStreetName, txtRentPrice;
     
     //Buttons
@@ -73,6 +80,8 @@ public class agentGUI extends JFrame implements ActionListener {
     
     
     agentGUI(){
+        server = new client();
+        
         //1st view
         //Panels
         WindowAgentPanel = new JPanel();
@@ -120,6 +129,7 @@ public class agentGUI extends JFrame implements ActionListener {
         //Labels
         lblCustomer = new JLabel("Add New Customer");
         lblCustomerDetails = new JLabel("Customer Details:");
+        lblcustID = new JLabel("Customer ID");
         lblName = new JLabel("Name");
         lblSurname = new JLabel("Surname");
         lblMobile = new JLabel("Mobile Number");
@@ -157,6 +167,7 @@ public class agentGUI extends JFrame implements ActionListener {
         lblPadding33 = new JLabel("");   
         
         //TextFields
+        txtCustID = new JTextField();
         txtName = new JTextField();
         txtSurname = new JTextField(); 
         txtMobileNum = new JTextField();
@@ -248,37 +259,44 @@ public class agentGUI extends JFrame implements ActionListener {
                 customerDetails.add(lblPadding11);
                 customerDetails.add(lblPadding12);
                 customerDetails.add(lblPadding13);
-                customerDetails.add(lblPadding14);
+                customerDetails.add(lblPadding14);  
+                
+        customerDetails.add(lblcustID);
+            lblcustID.setHorizontalAlignment(JLabel.CENTER);
+        customerDetails.add(txtCustID);
+            txtCustID.setHorizontalAlignment(JLabel.CENTER);     
         customerDetails.add(lblName);
             lblName.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtName);
             txtName.setHorizontalAlignment(JLabel.CENTER);
+                customerDetails.add(lblPadding15);
+                
         customerDetails.add(lblSurname);
             lblSurname.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtSurname);
-            txtSurname.setHorizontalAlignment(JLabel.CENTER);
-                customerDetails.add(lblPadding15);
+            txtSurname.setHorizontalAlignment(JLabel.CENTER);          
         customerDetails.add(lblMobile);
             lblMobile.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtMobileNum);
             txtMobileNum.setHorizontalAlignment(JLabel.CENTER);
+                customerDetails.add(lblPadding16);
+                
         customerDetails.add(lblEmail);
             lblEmail.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtEmail);
-            txtEmail.setHorizontalAlignment(JLabel.CENTER);
-                customerDetails.add(lblPadding16);
+            txtEmail.setHorizontalAlignment(JLabel.CENTER);   
         customerDetails.add(lblIdNum);
             lblIdNum.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtIDnum);
             txtIDnum.setHorizontalAlignment(JLabel.CENTER);
                 customerDetails.add(lblPadding17);
-                customerDetails.add(lblPadding18);
-                customerDetails.add(lblPadding19);
+                
                 customerDetails.add(lblPadding20);
                 customerDetails.add(lblPadding21);
                 customerDetails.add(lblPadding22);
                 customerDetails.add(lblPadding32);
                 customerDetails.add(lblPadding33);
+                
         customerDetails.add(lblHouseDetails);
             lblHouseDetails.setFont(ft2);
             lblHouseDetails.setHorizontalAlignment(JLabel.CENTER);
@@ -354,6 +372,8 @@ public class agentGUI extends JFrame implements ActionListener {
         btnBack.addActionListener(this);
         btnAdd.addActionListener(this);
         btnView.addActionListener(this);
+        
+        btnSave.addActionListener(this);
                 
         this.add(WindowAgentPanel);
         this.setPreferredSize(new Dimension(1300, 600));
@@ -390,6 +410,27 @@ public class agentGUI extends JFrame implements ActionListener {
         else if(e.getActionCommand().equals("LOG OUT")) {
             new loginGUI().SetGUI();
             this.setVisible(false);
+        }
+        //Inside Customer panel
+        else if(e.getActionCommand().equals("SAVE")) {
+            /*
+            int custID = Integer.valueOf(txtCustID.getText());
+            String name = txtName.getText();
+            String surname = txtSurname.getText();
+            int mobileNum = Integer.valueOf(txtMobileNum.getText());
+            String emailAddress = txtEmail.getText();
+            //int IDnum = Integer.valueOf(txtIDnum.getText());
+            */
+            customer customer = new customer(235, "Manny", "Barnes", 123, "Manny@gmail.com");
+            
+            boolean success = server.addCustomer(customer);
+            
+            if(success) {
+                JOptionPane.showMessageDialog(this, "Customer has been successfully added!");
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Customer could not be added due to technical issues");
+            }
         }
             
     }

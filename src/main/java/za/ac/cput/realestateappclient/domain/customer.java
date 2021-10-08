@@ -5,22 +5,23 @@
  */
 package za.ac.cput.realestateappclient.domain;
 
-/**
- *
- * @author smann
- */
-public class customer {
-    private int mobileNumber, IDnumber;
-    private String Name, Surname, emailAddress;
-    private boolean isActive;
+import java.io.Serializable;
 
-    public customer(int mobileNumber, int IDnumber, String Name, String Surname, String emailAddress, boolean isActive) {
-        this.mobileNumber = mobileNumber;
-        this.IDnumber = IDnumber;
+/**
+ * customer worker class - client side 
+ * @author Manasseh Barnes - 218009615
+ */
+
+public class customer implements Serializable{
+    private int mobileNumber,custID;
+    private String Name, Surname, emailAddress;
+    
+    public customer(int custID, String Name, String Surname, int mobileNumber, String emailAddress) {
+        this.custID = custID;
         this.Name = Name;
         this.Surname = Surname;
+        this.mobileNumber = mobileNumber;
         this.emailAddress = emailAddress;
-        this.isActive = isActive;
     }
 
     public int getMobileNumber() {
@@ -31,12 +32,12 @@ public class customer {
         this.mobileNumber = mobileNumber;
     }
 
-    public int getIDnumber() {
-        return IDnumber;
+    public int getCustID() {
+        return custID;
     }
 
-    public void setIDnumber(int IDnumber) {
-        this.IDnumber = IDnumber;
+    public void setCustID(int custID) {
+        this.custID = custID;
     }
 
     public String getName() {
@@ -63,18 +64,4 @@ public class customer {
         this.emailAddress = emailAddress;
     }
 
-    public boolean isIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    @Override
-    public String toString() {
-        return "customer{" + "mobileNumber=" + mobileNumber + ", IDnumber=" + IDnumber + ", Name=" + Name + ", Surname=" + Surname + ", emailAddress=" + emailAddress + ", isActive=" + isActive + '}';
-    }
-    
-    
 }

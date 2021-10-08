@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import za.ac.cput.realestateappclient.gui.agentGUI;
 /**
  *
  * Login GUI for authentication
