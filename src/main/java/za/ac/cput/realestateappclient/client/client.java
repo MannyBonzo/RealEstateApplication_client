@@ -10,9 +10,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import za.ac.cput.realestateappclient.domain.customer;
-import za.ac.cput.realestateappclient.domain.agent;
-import za.ac.cput.realestateappclient.domain.house;
+import za.ac.cput.realestateapp.domain.customer;
+import za.ac.cput.realestateapp.domain.agent;
+import za.ac.cput.realestateapp.domain.house;
 
 /**
  *

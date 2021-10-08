@@ -23,9 +23,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import za.ac.cput.realestateappclient.client.client;
 
-import za.ac.cput.realestateappclient.domain.customer;
-import za.ac.cput.realestateappclient.domain.agent;
-import za.ac.cput.realestateappclient.domain.house;
+import za.ac.cput.realestateapp.domain.customer;
+import za.ac.cput.realestateapp.domain.agent;
+import za.ac.cput.realestateapp.domain.house;
 
 import za.ac.cput.realestateappclient.gui.loginGUI;
 /**
@@ -413,15 +413,15 @@ public class agentGUI extends JFrame implements ActionListener {
         }
         //Inside Customer panel
         else if(e.getActionCommand().equals("SAVE")) {
-            /*
+            
             int custID = Integer.valueOf(txtCustID.getText());
             String name = txtName.getText();
             String surname = txtSurname.getText();
             int mobileNum = Integer.valueOf(txtMobileNum.getText());
             String emailAddress = txtEmail.getText();
-            //int IDnum = Integer.valueOf(txtIDnum.getText());
-            */
-            customer customer = new customer(235, "Manny", "Barnes", 123, "Manny@gmail.com");
+            
+            //customer customer = new customer(159, "Manny", "Barnes", 123, "Manny@gmail.com");
+            customer customer = new customer(custID, name, surname, mobileNum, emailAddress);
             
             boolean success = server.addCustomer(customer);
             
