@@ -59,6 +59,22 @@ public class client {
             return false;
         }
     }
+    
+    public boolean addHouse(house house){
+        try {
+            out.writeObject("addHouse");
+                out.flush();
+            out.writeObject(house);
+            out.flush();
+            
+            return in.readBoolean();
+        }
+        catch (IOException ioe)
+        {
+            System.out.println("IO Exception: " + ioe.getMessage());
+            return false;
+        }
+    }
       
     public static void main(String[] args)
     {

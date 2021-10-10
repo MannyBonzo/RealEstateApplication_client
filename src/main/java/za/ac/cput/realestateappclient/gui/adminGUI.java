@@ -17,8 +17,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import za.ac.cput.realestateapp.domain.house;
+import za.ac.cput.realestateapp.domain.agent;
+import za.ac.cput.realestateappclient.client.client;
 
 /**
  * Admin GUI 
@@ -26,6 +31,7 @@ import javax.swing.JTextField;
  */
 
 public class adminGUI extends JFrame implements ActionListener {
+    private client server;
     
     //Panels 
     private JPanel WindowAdminPanel; //Main Border Layout 
@@ -89,7 +95,9 @@ public class adminGUI extends JFrame implements ActionListener {
     
                                                     
     adminGUI(){
-        //1st view
+        server = new client();
+        
+        //1st view - Welcome Page
         //Panels
         WindowAdminPanel = new JPanel();
             WindowAdminPanel.setBackground(new Color(86, 105, 104));
@@ -125,7 +133,7 @@ public class adminGUI extends JFrame implements ActionListener {
             btnLogout.setBackground(new Color(77, 132, 129)); 
         //End 1st VIEW
         
-        //2nd view
+        //2nd view - Add House
         //Panels
         addHousePanel = new JPanel();
         houseHeading = new JPanel();
@@ -139,9 +147,7 @@ public class adminGUI extends JFrame implements ActionListener {
         lblhouseID = new JLabel("House ID: ");
         lblhousenum = new JLabel("House Number: "); 
         lblStreetName = new JLabel("Street Name: ");
-        lblCity = new JLabel("City: ");
         lblArea = new JLabel("Area: ");
-        lblPostalCode = new JLabel("Postal Code: ");
         lblnumRooms = new JLabel("Number of Rooms: ");
         lblRentPrice = new JLabel("Rental Price(p/m): ");
         
@@ -177,14 +183,12 @@ public class adminGUI extends JFrame implements ActionListener {
         txtPostalCode = new JTextField();
         
         //Buttons
-        btnSaveHouse = new JButton("SAVE");
+        btnSaveHouse = new JButton("Save new House");
         btnBackHouse = new JButton("Back");
         
-        //ComboBoxes
-        cboCity = new JComboBox();
         //End 2nd VIEW
         
-        //3rd VIEW
+        //3rd VIEW - Add Agent
         //Panels
         addAgentPanel = new JPanel();
         agentHeading = new JPanel();
@@ -213,11 +217,11 @@ public class adminGUI extends JFrame implements ActionListener {
         txtEmail = new JTextField();
         
         //Buttons
-        btnSaveAgent = new JButton("SAVE");
+        btnSaveAgent = new JButton("Save new Agent");
         btnBackAgent = new JButton("Back");
         //END 3rd View
         
-        //4th View - Edit Panel
+        //4th View - Edit Panel house and agent
         //Panels
         editPanel = new JPanel();
         editHousePanel = new JPanel();
@@ -230,7 +234,6 @@ public class adminGUI extends JFrame implements ActionListener {
         lblEdithouseDetails = new JLabel("Edit House Details");
         lblEdithousenum = new JLabel("House Number: ");
         lblEditStreetName = new JLabel("Street Name: ");
-        lblEditCity = new JLabel("City: ");
         lblEditArea = new JLabel("Area: ");
         lblEditPostalCode = new JLabel("Postal Code: ");
         lblEditnumRooms = new JLabel("Number of Rooms: ");
@@ -332,7 +335,7 @@ public class adminGUI extends JFrame implements ActionListener {
         //2nd view in WindowAdminPanel
         addHousePanel.setLayout(new BorderLayout());
         houseHeading.setLayout(new FlowLayout());
-        houseDetails.setLayout(new GridLayout(10,2));
+        houseDetails.setLayout(new GridLayout(8,2));
         houseButtons.setLayout(new GridLayout(1,2));
             
         houseHeading.add(lblAddHouseHeading); 
@@ -355,20 +358,12 @@ public class adminGUI extends JFrame implements ActionListener {
             lblStreetName.setHorizontalAlignment(JLabel.CENTER);
         houseDetails.add(txtStreetName);
             txtStreetName.setHorizontalAlignment(JLabel.CENTER);
-        houseDetails.add(lblCity);
-            lblCity.setHorizontalAlignment(JLabel.CENTER);
-        houseDetails.add(cboCity);
-            //cboCity.setHorizontalAlignment(JLabel.CENTER);
+        
         houseDetails.add(lblArea);
             lblArea.setHorizontalAlignment(JLabel.CENTER);
         houseDetails.add(txtArea);
             txtArea.setHorizontalAlignment(JLabel.CENTER);
-        
-        houseDetails.add(lblPostalCode);
-            lblPostalCode.setHorizontalAlignment(JLabel.CENTER);
-        houseDetails.add(txtPostalCode);
-            txtPostalCode.setHorizontalAlignment(JLabel.CENTER);
-            
+
         houseDetails.add(lblnumRooms);
             lblnumRooms.setHorizontalAlignment(JLabel.CENTER);
         houseDetails.add(txtRooms);    
@@ -438,8 +433,8 @@ public class adminGUI extends JFrame implements ActionListener {
         
         //4th View - Edit Panel
         editPanel.setLayout(new GridLayout(2,1));
-        editHousePanel.setLayout(new GridLayout(9,3));
-        editAgentPanel.setLayout(new GridLayout(7,3));
+        editHousePanel.setLayout(new GridLayout(8,3));
+        editAgentPanel.setLayout(new GridLayout(8,3));
         
         editHousePanel.add(lblEdithouseDetails);
             lblEdithouseDetails.setFont(ft2);
@@ -465,26 +460,12 @@ public class adminGUI extends JFrame implements ActionListener {
         
         editHousePanel.add(lblPadding49);  
         
-        editHousePanel.add(lblEditCity);
-            lblEditCity.setHorizontalAlignment(JLabel.CENTER);
-        editHousePanel.add(txtEditCity);
-            txtEditCity.setHorizontalAlignment(JLabel.CENTER);
-        
-        editHousePanel.add(lblPadding45);
-        
         editHousePanel.add(lblEditArea);
             lblEditArea.setHorizontalAlignment(JLabel.CENTER);
         editHousePanel.add(txtEditArea);
             txtEditArea.setHorizontalAlignment(JLabel.CENTER);
         
         editHousePanel.add(lblPadding46);
-        
-        editHousePanel.add(lblEditPostalCode);
-            lblEditPostalCode.setHorizontalAlignment(JLabel.CENTER);
-        editHousePanel.add(txtEditPostalCode);
-            txtEditPostalCode.setHorizontalAlignment(JLabel.CENTER);
-            
-        editHousePanel.add(lblPadding47);
         
         editHousePanel.add(lblEditnumRooms);
             lblEditnumRooms.setHorizontalAlignment(JLabel.CENTER);
@@ -579,6 +560,9 @@ public class adminGUI extends JFrame implements ActionListener {
         btnEditAgentBack.addActionListener(this);
         btnEditAgentUpdate.addActionListener(this);
         
+        btnSaveHouse.addActionListener(this);
+        btnSaveAgent.addActionListener(this);
+        
         this.add(WindowAdminPanel);
         this.setPreferredSize(new Dimension(1300, 600));
         this.pack();
@@ -627,5 +611,44 @@ public class adminGUI extends JFrame implements ActionListener {
             this.setVisible(false);
         }
         
+        else if(e.getActionCommand().equals("Save new House")) {
+            //get Values
+            int houseID = Integer.valueOf(txthouseID.getText());
+            int houseNum = Integer.valueOf(txtHouseNum.getText());
+            String streetName = txtStreetName.getText();
+            String area = txtArea.getText();
+            int numOfRooms = Integer.valueOf(txtRooms.getText());
+            int rent = Integer.valueOf(txtRentPrice.getText());
+            
+            house house = new house(houseID,houseNum,streetName,area,numOfRooms,rent, true);
+            
+            boolean success = server.addHouse(house);
+            
+            if(success) {
+                JOptionPane.showMessageDialog(this, "Customer has been successfully added!");
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Customer could not be added due to technical issues");
+            }
+            /*
+            int custID = Integer.valueOf(txtCustID.getText());
+            String name = txtName.getText();
+            String surname = txtSurname.getText();
+            int mobileNum = Integer.valueOf(txtMobileNum.getText());
+            String emailAddress = txtEmail.getText();
+            
+            //customer customer = new customer(159, "Manny", "Barnes", 123, "Manny@gmail.com");
+            customer customer = new customer(custID, name, surname, mobileNum, emailAddress);
+            
+            boolean success = server.addCustomer(customer);
+            
+            if(success) {
+                JOptionPane.showMessageDialog(this, "Customer has been successfully added!");
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Customer could not be added due to technical issues");
+            }
+            */
+        }
     }
 }
