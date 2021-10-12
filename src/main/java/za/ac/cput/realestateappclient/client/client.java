@@ -105,15 +105,35 @@ public class client {
         }
     }
     
-    public List<String> populateCBO(){
+    public List<String> populateID_CBO(String type){
         try{
-            List<String> locations = null;
-            out.writeObject("getAllLocationCBO");
+            List<String> house_id = null;
+            out.writeObject("getAll_id");
+                out.flush();
+            out.writeObject(type);
                 out.flush();
             //response = (String)in.readObject();
-            locations = (List<String>)in.readObject();
-                System.out.println("CLIENT>> " + locations);
-            return locations;
+            house_id = (List<String>)in.readObject();
+                System.out.println("CLIENT>> " + house_id);
+            return house_id;
+        }
+        catch(IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<String> populateFields(String type){
+        try{
+            List<String> house_fields = null;
+            out.writeObject("getAll_houseInfo");
+                out.flush();
+            out.writeObject(type);
+                out.flush();
+            //response = (String)in.readObject();
+            house_fields = (List<String>)in.readObject();
+                System.out.println("CLIENT>> " + house_fields);
+            return house_fields;
         }
         catch(IOException | ClassNotFoundException e) {
             e.printStackTrace();

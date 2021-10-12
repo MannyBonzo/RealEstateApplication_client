@@ -18,8 +18,12 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -34,7 +38,7 @@ import za.ac.cput.realestateappclient.gui.loginGUI;
  * Agent GUI 
  * @author Manasseh Barnes- 218009615
  */
-public class agentGUI extends JFrame implements ActionListener {
+public class agentGUI extends JFrame implements ActionListener, ItemListener {
     private client client;
     
     //Panels 
@@ -59,7 +63,7 @@ public class agentGUI extends JFrame implements ActionListener {
     private JLabel lblHeading, lblMenu, lblWelcome;
     private JLabel lblPadding1, lblPadding2, lblPadding3, lblPadding4, lblPadding5, lblPadding6, lblPadding7, lblPadding8, lblPadding9, lblPadding10;
     private JLabel lblPadding11,lblPadding12, lblPadding13, lblPadding14, lblPadding15, lblPadding16, lblPadding17, lblPadding18, lblPadding19, lblPadding20, lblPadding21, lblPadding22,
-                    lblPadding23,lblPadding24,lblPadding25,lblPadding26, lblPadding27,lblPadding28,lblPadding29,lblPadding30, lblPadding31, lblPadding32, lblPadding33;
+                    lblPadding23,lblPadding24,lblPadding25,lblPadding26, lblPadding27,lblPadding28,lblPadding29,lblPadding30, lblPadding31, lblPadding32, lblPadding33, lblPadding34, lblPadding35;
     
     private JLabel lblCustomer, lblCustomerDetails, lblName, lblSurname, lblMobile, lblEmail,lblIdNum, lblcustID;
     private JLabel lblHouseDetails, lblhousenum, lblnumRooms, lblStreetName, lblRentPrice;
@@ -74,8 +78,10 @@ public class agentGUI extends JFrame implements ActionListener {
     private JButton btnSave, btnBack;
     
     //ComboBoxes
-    private JComboBox cboLocation;
+    private JComboBox cboType;
     private JComboBox cboAvailable;
+    
+    private DefaultListCellRenderer listRenderer;
     
     //Fonts
     private Font ft1, ft2, ft3, ft4;
@@ -136,7 +142,6 @@ public class agentGUI extends JFrame implements ActionListener {
         lblSurname = new JLabel("Surname");
         lblMobile = new JLabel("Mobile Number");
         lblEmail = new JLabel("Email Address");
-        lblIdNum = new JLabel("ID Number");
         
         lblHouseDetails = new JLabel("Rent Details: "); 
         lblhousenum = new JLabel("House Number: "); 
@@ -166,7 +171,9 @@ public class agentGUI extends JFrame implements ActionListener {
         lblPadding30 = new JLabel("");
         lblPadding31 = new JLabel("");
         lblPadding32 = new JLabel("");
-        lblPadding33 = new JLabel("");   
+        lblPadding33 = new JLabel(""); 
+        lblPadding34 = new JLabel(""); 
+        lblPadding35 = new JLabel("");
         
         //TextFields
         txtCustID = new JTextField();
@@ -174,7 +181,6 @@ public class agentGUI extends JFrame implements ActionListener {
         txtSurname = new JTextField(); 
         txtMobileNum = new JTextField();
         txtEmail = new JTextField();
-        txtIDnum = new JTextField();
         
         txtHouseNum = new JTextField(); 
         txtRooms = new JTextField(); 
@@ -185,7 +191,8 @@ public class agentGUI extends JFrame implements ActionListener {
         btnSave = new JButton("SAVE");
         btnBack = new JButton("Back");
         //ComboBoxes
-        cboLocation = new JComboBox();
+            String listOfTypes[] = {"No selection made","Free Standing House", "Condo", "Flat", "Mansion"};
+        cboType = new JComboBox(listOfTypes);
         cboAvailable = new JComboBox();
         //End 2nd VIEW
         
@@ -287,10 +294,8 @@ public class agentGUI extends JFrame implements ActionListener {
             lblEmail.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtEmail);
             txtEmail.setHorizontalAlignment(JLabel.CENTER);   
-        customerDetails.add(lblIdNum);
-            lblIdNum.setHorizontalAlignment(JLabel.CENTER);
-        customerDetails.add(txtIDnum);
-            txtIDnum.setHorizontalAlignment(JLabel.CENTER);
+                customerDetails.add(lblPadding34);
+                customerDetails.add(lblPadding35);
                 customerDetails.add(lblPadding17);
                 
                 customerDetails.add(lblPadding20);
@@ -306,7 +311,10 @@ public class agentGUI extends JFrame implements ActionListener {
                 customerDetails.add(lblPadding24);
                 customerDetails.add(lblPadding25);
                 customerDetails.add(lblPadding26);
-        customerDetails.add(cboLocation);
+        customerDetails.add(cboType);
+            listRenderer = new DefaultListCellRenderer();
+            listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
+            cboType.setRenderer(listRenderer);
         customerDetails.add(lblhousenum);
             lblhousenum.setHorizontalAlignment(JLabel.CENTER);
         customerDetails.add(txtHouseNum);
@@ -376,6 +384,9 @@ public class agentGUI extends JFrame implements ActionListener {
         btnView.addActionListener(this);
         
         btnSave.addActionListener(this);
+        
+        cboType.addItemListener(this);
+        //cboAvailable.addItemListener(this);
                 
         this.add(WindowAgentPanel);
         this.setPreferredSize(new Dimension(1300, 600));
@@ -390,29 +401,27 @@ public class agentGUI extends JFrame implements ActionListener {
         new agentGUI().SetGUI();
     }
     
-    /*
-    public void populateCBO() throws SQLException{
-        cboDelete.removeAllItems();
-        cboDelete.addItem("No Selection made");
+    
+    public void fillID_CBO(){
+        //get Type cbo
+        String type = (String)cboType.getSelectedItem();
         
-        studentList = (ArrayList<Student>) dao.getAll();
-        for(int i = 0; i < studentList.size(); i++) {
-            String student_num = studentList.get(i).getStudentNumber();
-            cboDelete.addItem(student_num);
+        List<String> houseID_list = new ArrayList<>();
+
+        houseID_list = client.populateID_CBO(type);
+        
+        for(int i = 0; i < houseID_list.size(); i++) {
+            String houseid_list = houseID_list.get(i);
+            cboAvailable.addItem(houseid_list);
         }
     }
-    */
-    public void fillCBO(){
-        cboLocation.removeAllItems();
-        cboLocation.addItem("No Selection made");
-            
-        List<String> houseLocationLIST = new ArrayList<>();
-            
-        houseLocationLIST = client.populateCBO();
-        for(int i = 0; i < houseLocationLIST.size(); i++) {
-            String locations = houseLocationLIST.get(i);
-            cboLocation.addItem(locations);
-        }
+    
+    public void fillFields_houses(){
+        String type = (String)cboAvailable.getSelectedItem();
+        
+        List<String> houseAvailable_list = new ArrayList<>();
+        
+        houseAvailable_list = client.populateFields(type);  
     }
     
     @Override
@@ -422,9 +431,11 @@ public class agentGUI extends JFrame implements ActionListener {
             ViewCustomersPanel.setVisible(false);
             WindowAgentPanel.add(addCustomerPanel, BorderLayout.CENTER);
             addCustomerPanel.setVisible(true);
-            
+
             //fill combobox
-            //fillCBO();    
+            cboType.setSelectedIndex(0);
+             
+            
         }
         else if(e.getActionCommand().equals("Back")) {
             addCustomerPanel.setVisible(false);
@@ -464,5 +475,13 @@ public class agentGUI extends JFrame implements ActionListener {
             }
         }
             
+    }  
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if(e.getStateChange() == ItemEvent.SELECTED) {
+            cboAvailable.removeAllItems();
+            fillID_CBO();   
+        }
     }
-}
+}   

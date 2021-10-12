@@ -13,6 +13,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -62,7 +63,7 @@ public class adminGUI extends JFrame implements ActionListener {
     
     private JLabel lblPadding51, lblPadding52, lblPadding53, lblPadding54, lblPadding55, lblPadding56, lblPadding57, lblPadding58, lblPadding59, lblPadding60, lblPadding61,lblPadding62, lblPadding63;
     
-    private JLabel lblAddHouseHeading,lblhouseDetails, lblhouseID,lblhousenum, lblnumRooms, lblStreetName, lblRentPrice, lblCity, lblArea, lblPostalCode;
+    private JLabel lblAddHouseHeading,lblhouseDetails, lblhouseID,lblhousenum, lblnumRooms, lblStreetName, lblRentPrice, lblType, lblArea, lblPostalCode;
     
     private JLabel lblAddAgentHeading, lblagentDetails, lblEmployeeID, lblIDnum, lblagentName, lblagentSurname, lblMobileNum, lblemail;
     
@@ -86,9 +87,11 @@ public class adminGUI extends JFrame implements ActionListener {
     private JButton btnEditAgentBack, btnEditAgentUpdate;
     
     //ComboBoxes
-    private JComboBox cboCity;
     private JComboBox cboEdithouseID;
     private JComboBox cboEditagentEmployeeID;
+    private JComboBox cboType;
+    
+    private DefaultListCellRenderer listRenderer;
 
     //Fonts
     private Font ft1, ft2, ft3, ft4;
@@ -147,9 +150,14 @@ public class adminGUI extends JFrame implements ActionListener {
         lblhouseID = new JLabel("House ID: ");
         lblhousenum = new JLabel("House Number: "); 
         lblStreetName = new JLabel("Street Name: ");
+        
+        String listOfTypes[] = {"Free Standing House", "Condo", "Flat", "Mansion"};
+        cboType = new JComboBox(listOfTypes);
+        
         lblArea = new JLabel("Area: ");
         lblnumRooms = new JLabel("Number of Rooms: ");
         lblRentPrice = new JLabel("Rental Price(p/m): ");
+        lblType = new JLabel("Type of Rental: ");
         
         lblPadding11 = new JLabel("");
         lblPadding12 = new JLabel("");
@@ -333,7 +341,7 @@ public class adminGUI extends JFrame implements ActionListener {
         //2nd view in WindowAdminPanel
         addHousePanel.setLayout(new BorderLayout());
         houseHeading.setLayout(new FlowLayout());
-        houseDetails.setLayout(new GridLayout(8,2));
+        houseDetails.setLayout(new GridLayout(9,2));
         houseButtons.setLayout(new GridLayout(1,2));
             
         houseHeading.add(lblAddHouseHeading); 
@@ -361,7 +369,7 @@ public class adminGUI extends JFrame implements ActionListener {
             lblArea.setHorizontalAlignment(JLabel.CENTER);
         houseDetails.add(txtArea);
             txtArea.setHorizontalAlignment(JLabel.CENTER);
-
+            
         houseDetails.add(lblnumRooms);
             lblnumRooms.setHorizontalAlignment(JLabel.CENTER);
         houseDetails.add(txtRooms);    
@@ -369,7 +377,14 @@ public class adminGUI extends JFrame implements ActionListener {
         houseDetails.add(lblRentPrice);
             lblRentPrice.setHorizontalAlignment(JLabel.CENTER);
         houseDetails.add(txtRentPrice);
-            txtRentPrice.setHorizontalAlignment(JLabel.CENTER);    
+            txtRentPrice.setHorizontalAlignment(JLabel.CENTER);   
+            
+        houseDetails.add(lblType);
+            lblType.setHorizontalAlignment(JLabel.CENTER);
+        houseDetails.add(cboType);    
+            listRenderer = new DefaultListCellRenderer();
+            listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
+            cboType.setRenderer(listRenderer);
             
         houseButtons.add(btnBackHouse);
             btnBackHouse.setFont(ft3);
@@ -607,9 +622,10 @@ public class adminGUI extends JFrame implements ActionListener {
             String area = txtArea.getText();
             int numOfRooms = Integer.valueOf(txtRooms.getText());
             int rent = Integer.valueOf(txtRentPrice.getText());
+            String type = (String)cboType.getSelectedItem();
             
             //new Object
-            house house = new house(houseID,houseNum,streetName,area,numOfRooms,rent, true);
+            house house = new house(houseID,houseNum,streetName,area,numOfRooms,rent, type, true);
             
             //Check if house is added
             boolean success = client.addHouse(house);
