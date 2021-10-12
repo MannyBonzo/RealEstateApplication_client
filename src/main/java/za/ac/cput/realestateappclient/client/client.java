@@ -34,7 +34,7 @@ public class client {
             server = new Socket("127.0.0.1", 4000);
             
             out = new ObjectOutputStream(server.getOutputStream());
-            out.flush();
+                out.flush();
             
             in = new ObjectInputStream(server.getInputStream());
         }
@@ -44,19 +44,31 @@ public class client {
         }
     }
     
+    public void logOUT() {
+        try{
+            out.writeObject("terminate");
+                out.flush();    
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public boolean addCustomer(customer customer){
         try {
             out.writeObject("addCustomer");
                 out.flush();
             out.writeObject(customer);
-            out.flush();
+                out.flush();
             
+                //System.out.println(in.readBoolean());
             return in.readBoolean();
+            
         }
         catch (IOException ioe)
         {
             System.out.println("IO Exception: " + ioe.getMessage());
-            return false;
+            return true;
         }
     }
     
@@ -65,14 +77,30 @@ public class client {
             out.writeObject("addHouse");
                 out.flush();
             out.writeObject(house);
-            out.flush();
+                out.flush();
             
             return in.readBoolean();
         }
         catch (IOException ioe)
         {
             System.out.println("IO Exception: " + ioe.getMessage());
-            return false;
+            return true;
+        }
+    }
+    
+    public boolean addAgent(agent agent) {
+         try {
+            out.writeObject("addAgent");
+                out.flush();
+            out.writeObject(agent);
+                out.flush();
+            
+            return in.readBoolean();
+        }
+        catch (IOException ioe)
+        {
+            System.out.println("IO Exception: " + ioe.getMessage());
+            return true;
         }
     }
       

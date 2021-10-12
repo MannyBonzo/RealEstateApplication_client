@@ -33,7 +33,7 @@ import za.ac.cput.realestateappclient.gui.loginGUI;
  * @author Manasseh Barnes- 218009615
  */
 public class agentGUI extends JFrame implements ActionListener {
-    private client server;
+    private client client;
     
     //Panels 
     private JPanel WindowAgentPanel; //Main Border Layout 
@@ -80,7 +80,7 @@ public class agentGUI extends JFrame implements ActionListener {
     
     
     agentGUI(){
-        server = new client();
+        client = new client();
         
         //1st view
         //Panels
@@ -408,6 +408,7 @@ public class agentGUI extends JFrame implements ActionListener {
             ViewCustomersPanel.setVisible(true);
         }
         else if(e.getActionCommand().equals("LOG OUT")) {
+            client.logOUT();
             new loginGUI().SetGUI();
             this.setVisible(false);
         }
@@ -423,8 +424,8 @@ public class agentGUI extends JFrame implements ActionListener {
             //customer customer = new customer(159, "Manny", "Barnes", 123, "Manny@gmail.com");
             customer customer = new customer(custID, name, surname, mobileNum, emailAddress);
             
-            boolean success = server.addCustomer(customer);
-            
+            boolean success = client.addCustomer(customer);
+                System.out.println("Client returns " + success);
             if(success) {
                 JOptionPane.showMessageDialog(this, "Customer has been successfully added!");
             }

@@ -31,7 +31,7 @@ import za.ac.cput.realestateappclient.client.client;
  */
 
 public class adminGUI extends JFrame implements ActionListener {
-    private client server;
+    private client client;
     
     //Panels 
     private JPanel WindowAdminPanel; //Main Border Layout 
@@ -60,7 +60,7 @@ public class adminGUI extends JFrame implements ActionListener {
     
     private JLabel lblPadding40, lblPadding41, lblPadding42, lblPadding43, lblPadding44, lblPadding45, lblPadding46, lblPadding47, lblPadding48, lblPadding49, lblPadding50;
     
-    private JLabel lblPadding51, lblPadding52, lblPadding53, lblPadding54, lblPadding55, lblPadding56, lblPadding57, lblPadding58, lblPadding59, lblPadding60, lblPadding61;
+    private JLabel lblPadding51, lblPadding52, lblPadding53, lblPadding54, lblPadding55, lblPadding56, lblPadding57, lblPadding58, lblPadding59, lblPadding60, lblPadding61,lblPadding62, lblPadding63;
     
     private JLabel lblAddHouseHeading,lblhouseDetails, lblhouseID,lblhousenum, lblnumRooms, lblStreetName, lblRentPrice, lblCity, lblArea, lblPostalCode;
     
@@ -95,7 +95,7 @@ public class adminGUI extends JFrame implements ActionListener {
     
                                                     
     adminGUI(){
-        server = new client();
+        client = new client();
         
         //1st view - Welcome Page
         //Panels
@@ -202,7 +202,6 @@ public class adminGUI extends JFrame implements ActionListener {
         lblAddAgentHeading = new JLabel("Add New Agent");
         lblagentDetails =  new JLabel("Agent Details: "); 
         lblEmployeeID =  new JLabel("Employee ID: ");
-        lblIDnum = new JLabel("ID Number: ");
         lblagentName = new JLabel("Name: ");
         lblagentSurname = new JLabel("Surname: ");
         lblMobileNum = new JLabel("Mobile Number: ");
@@ -210,7 +209,6 @@ public class adminGUI extends JFrame implements ActionListener {
         
         //TextFields
         txtEmployeeID = new JTextField(); 
-        txtID = new JTextField(); 
         txtName = new JTextField(); 
         txtSurname = new JTextField();
         txtMobileNum = new JTextField();
@@ -241,7 +239,6 @@ public class adminGUI extends JFrame implements ActionListener {
         
         lblEditagentDetails = new JLabel("Edit Agent Details");
         lblEditagentEmployeeID = new JLabel("Employee ID: ");
-        lblEditagentIDnum = new JLabel("ID Number: ");
         lblEditagentName = new JLabel("Name: ");
         lblEditagentSurname = new JLabel("Surname: ");
         lblEditagentMobileNum = new JLabel("Mobile Number: ");
@@ -270,6 +267,8 @@ public class adminGUI extends JFrame implements ActionListener {
         lblPadding59 = new JLabel("");
         lblPadding60 = new JLabel("");
         lblPadding61 = new JLabel("");
+        lblPadding62 = new JLabel("");
+        lblPadding63 = new JLabel("");
         
         //TextFields
         txtEditHouseID = new JTextField();
@@ -281,7 +280,6 @@ public class adminGUI extends JFrame implements ActionListener {
         txtEditRooms = new JTextField();
         txtEditRentPrice = new JTextField(); 
         
-        txtEditagentIDnum = new JTextField();
         txtEditagentName = new JTextField();
         txtEditagentSurname = new JTextField();
         txtEditagentMobileNum = new JTextField();
@@ -382,7 +380,7 @@ public class adminGUI extends JFrame implements ActionListener {
         //3rd View
         addAgentPanel.setLayout(new BorderLayout());
         agentHeading.setLayout(new FlowLayout());
-        agentDetails.setLayout(new GridLayout(8,2));
+        agentDetails.setLayout(new GridLayout(7,2));
         agentButtons.setLayout(new GridLayout(1,2));
         
         agentHeading.add(lblAddAgentHeading);
@@ -398,11 +396,6 @@ public class adminGUI extends JFrame implements ActionListener {
             lblEmployeeID.setHorizontalAlignment(JLabel.CENTER);
         agentDetails.add(txtEmployeeID);
             txtEmployeeID.setHorizontalAlignment(JLabel.CENTER);   
-            
-        agentDetails.add(lblIDnum);
-            lblIDnum.setHorizontalAlignment(JLabel.CENTER);
-        agentDetails.add(txtID);
-            txtID.setHorizontalAlignment(JLabel.CENTER);
              
         agentDetails.add(lblagentName);
             lblagentName.setHorizontalAlignment(JLabel.CENTER);  
@@ -434,7 +427,7 @@ public class adminGUI extends JFrame implements ActionListener {
         //4th View - Edit Panel
         editPanel.setLayout(new GridLayout(2,1));
         editHousePanel.setLayout(new GridLayout(8,3));
-        editAgentPanel.setLayout(new GridLayout(8,3));
+        editAgentPanel.setLayout(new GridLayout(7,3));
         
         editHousePanel.add(lblEdithouseDetails);
             lblEdithouseDetails.setFont(ft2);
@@ -493,19 +486,12 @@ public class adminGUI extends JFrame implements ActionListener {
                 editAgentPanel.add(lblPadding52);
                 editAgentPanel.add(lblPadding53);
         
-        editAgentPanel.add(lblEditagentIDnum);
-            lblEditagentIDnum.setHorizontalAlignment(JLabel.CENTER);
-        editAgentPanel.add(txtEditagentIDnum);
-            lblEditagentIDnum.setHorizontalAlignment(JLabel.CENTER);
-        
-            editAgentPanel.add(btnEditAgentBack);
-        
         editAgentPanel.add(lblEditagentName);
             lblEditagentName.setHorizontalAlignment(JLabel.CENTER);
         editAgentPanel.add(txtEditagentName);
             txtEditagentName.setHorizontalAlignment(JLabel.CENTER);
-        
-            editAgentPanel.add(lblPadding55);
+            
+            editAgentPanel.add(btnEditAgentBack);
         
         editAgentPanel.add(lblEditagentSurname);
             lblEditagentSurname.setHorizontalAlignment(JLabel.CENTER);
@@ -607,10 +593,12 @@ public class adminGUI extends JFrame implements ActionListener {
             editPanel.setVisible(true);
         }
         else if(e.getActionCommand().equals("LOG OUT")) {
+            client.logOUT();
             new loginGUI().SetGUI();
             this.setVisible(false);
         }
         
+        //Database Interaction
         else if(e.getActionCommand().equals("Save new House")) {
             //get Values
             int houseID = Integer.valueOf(txthouseID.getText());
@@ -620,35 +608,37 @@ public class adminGUI extends JFrame implements ActionListener {
             int numOfRooms = Integer.valueOf(txtRooms.getText());
             int rent = Integer.valueOf(txtRentPrice.getText());
             
+            //new Object
             house house = new house(houseID,houseNum,streetName,area,numOfRooms,rent, true);
             
-            boolean success = server.addHouse(house);
-            
+            //Check if house is added
+            boolean success = client.addHouse(house);
+                System.out.println("Client returns " + success);
             if(success) {
                 JOptionPane.showMessageDialog(this, "Customer has been successfully added!");
             }
             else {
                 JOptionPane.showMessageDialog(this, "Customer could not be added due to technical issues");
             }
-            /*
-            int custID = Integer.valueOf(txtCustID.getText());
+        }
+        else if(e.getActionCommand().equals("Save new Agent")) {
+            //get Values
+            int employee_id = Integer.valueOf(txtEmployeeID.getText());
             String name = txtName.getText();
             String surname = txtSurname.getText();
-            int mobileNum = Integer.valueOf(txtMobileNum.getText());
-            String emailAddress = txtEmail.getText();
+            int mobile_number = Integer.valueOf(txtMobileNum.getText());
+            String email = txtEmail.getText();
             
-            //customer customer = new customer(159, "Manny", "Barnes", 123, "Manny@gmail.com");
-            customer customer = new customer(custID, name, surname, mobileNum, emailAddress);
+            agent agent = new agent(employee_id, name, surname, mobile_number, email, true);
             
-            boolean success = server.addCustomer(customer);
-            
+            boolean success = client.addAgent(agent);
+                System.out.println("Client returns " + success);
             if(success) {
-                JOptionPane.showMessageDialog(this, "Customer has been successfully added!");
+                JOptionPane.showMessageDialog(this, "Agent has been successfully added");
             }
             else {
-                JOptionPane.showMessageDialog(this, "Customer could not be added due to technical issues");
+                JOptionPane.showMessageDialog(this, "Agent could not be added due to technical issues");
             }
-            */
         }
     }
 }
