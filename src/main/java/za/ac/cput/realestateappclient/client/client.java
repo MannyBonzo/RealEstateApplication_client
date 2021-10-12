@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 
 import za.ac.cput.realestateapp.domain.customer;
 import za.ac.cput.realestateapp.domain.agent;
@@ -103,7 +104,23 @@ public class client {
             return true;
         }
     }
-      
+    
+    public List<String> populateCBO(){
+        try{
+            List<String> locations = null;
+            out.writeObject("getAllLocationCBO");
+                out.flush();
+            //response = (String)in.readObject();
+            locations = (List<String>)in.readObject();
+                System.out.println("CLIENT>> " + locations);
+            return locations;
+        }
+        catch(IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     public static void main(String[] args)
     {
         new client();

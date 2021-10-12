@@ -18,6 +18,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -387,7 +389,32 @@ public class agentGUI extends JFrame implements ActionListener {
     public static void main(String[] args) {
         new agentGUI().SetGUI();
     }
-
+    
+    /*
+    public void populateCBO() throws SQLException{
+        cboDelete.removeAllItems();
+        cboDelete.addItem("No Selection made");
+        
+        studentList = (ArrayList<Student>) dao.getAll();
+        for(int i = 0; i < studentList.size(); i++) {
+            String student_num = studentList.get(i).getStudentNumber();
+            cboDelete.addItem(student_num);
+        }
+    }
+    */
+    public void fillCBO(){
+        cboLocation.removeAllItems();
+        cboLocation.addItem("No Selection made");
+            
+        List<String> houseLocationLIST = new ArrayList<>();
+            
+        houseLocationLIST = client.populateCBO();
+        for(int i = 0; i < houseLocationLIST.size(); i++) {
+            String locations = houseLocationLIST.get(i);
+            cboLocation.addItem(locations);
+        }
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Add New Customer")) {
@@ -395,6 +422,9 @@ public class agentGUI extends JFrame implements ActionListener {
             ViewCustomersPanel.setVisible(false);
             WindowAgentPanel.add(addCustomerPanel, BorderLayout.CENTER);
             addCustomerPanel.setVisible(true);
+            
+            //fill combobox
+            //fillCBO();    
         }
         else if(e.getActionCommand().equals("Back")) {
             addCustomerPanel.setVisible(false);
