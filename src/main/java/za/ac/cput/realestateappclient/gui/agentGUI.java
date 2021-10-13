@@ -72,7 +72,7 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
     
     private JLabel lblViewCustomer;
     //TextFields
-    private JTextField txtName, txtSurname, txtMobileNum, txtEmail, txtIDnum, txtCustID;
+    private JTextField txtName, txtSurname, txtMobileNum, txtEmail, txtCustID;
     private JTextField txtHouseNum, txtRooms, txtStreetName, txtRentPrice;
     
     //Buttons
@@ -443,7 +443,20 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
             txtRentPrice.setText(available_houseList); 
         }
     }
-
+    
+    public void ClearFields(){
+        txtCustID.setText(null);
+        txtName.setText(null);
+        txtSurname.setText(null);
+        txtMobileNum.setText(null);
+        txtEmail.setText(null);
+        
+        cboType.setSelectedIndex(0);
+        txtHouseNum.setText(null);
+        txtRooms.setText(null);
+        txtStreetName.setText(null);
+        txtRentPrice.setText(null);
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Add New Customer")) {
@@ -453,9 +466,7 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
             addCustomerPanel.setVisible(true);
 
             //fill combobox
-            cboType.setSelectedIndex(0);
-             
-            
+            cboType.setSelectedIndex(0);  
         }
         else if(e.getActionCommand().equals("Back")) {
             addCustomerPanel.setVisible(false);
@@ -482,21 +493,20 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
             int mobileNum = Integer.valueOf(txtMobileNum.getText());
             String emailAddress = txtEmail.getText();
             
-            int house_id = (int)cboAvailable.getSelectedItem();
+            int house_id = Integer.parseInt(cboAvailable.getSelectedItem().toString());
             int customer_id = Integer.valueOf(txtCustID.getText());
             int rent_price = Integer.valueOf(txtRentPrice.getText());
             
-            
-            //customer customer = new customer(159, "Manny", "Barnes", 123, "Manny@gmail.com");
             customer customer = new customer(custID, name, surname, mobileNum, emailAddress);
             rentTransaction rentTrans = new rentTransaction(0, customer_id, house_id, rent_price, 0);
             
             boolean customerSuccess = client.addCustomer(customer);
             boolean transactionSuccess = client.addTransaction(rentTrans);
-                System.out.println("Client returns " + transactionSuccess);
                 System.out.println("Client returns " + customerSuccess);
+                System.out.println("Client returns " + transactionSuccess);
             if(customerSuccess && transactionSuccess) {
                 JOptionPane.showMessageDialog(this, "Customer has been successfully added!");
+                ClearFields();
             }
             else {
                 JOptionPane.showMessageDialog(this, "Customer could not be added due to technical issues");
@@ -504,7 +514,6 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
         }
             
     }  
-
     @Override
     public void itemStateChanged(ItemEvent e) {
         if(e.getSource().equals(cboType)){

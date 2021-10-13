@@ -158,6 +158,37 @@ public class client {
         }
     }
     
+    public List<String> populateEditHouseID_CBO() {
+        try{
+            List<String> house_id = null;
+            out.writeObject("getHouseID");
+            out.flush();
+            house_id = (List<String>)in.readObject();
+                System.out.println("CLIENT>> " + house_id);
+            return house_id;
+        }
+        catch(IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public List<String> populateEditAgentID_CBO() {
+        try{
+            List<String> agent_id = null;
+            out.writeObject("getAgentID");
+            out.flush();
+            agent_id = (List<String>)in.readObject();
+                System.out.println("CLIENT>> " + agent_id);
+            return agent_id;
+        }
+        catch(IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    
+    
     public static void main(String[] args)
     {
         new client();

@@ -13,6 +13,10 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -31,7 +35,7 @@ import za.ac.cput.realestateappclient.client.client;
  * @author Manasseh Barnes- 218009615
  */
 
-public class adminGUI extends JFrame implements ActionListener {
+public class adminGUI extends JFrame implements ActionListener, ItemListener{
     private client client;
     
     //Panels 
@@ -61,23 +65,23 @@ public class adminGUI extends JFrame implements ActionListener {
     
     private JLabel lblPadding40, lblPadding41, lblPadding42, lblPadding43, lblPadding44, lblPadding45, lblPadding46, lblPadding47, lblPadding48, lblPadding49, lblPadding50;
     
-    private JLabel lblPadding51, lblPadding52, lblPadding53, lblPadding54, lblPadding55, lblPadding56, lblPadding57, lblPadding58, lblPadding59, lblPadding60, lblPadding61,lblPadding62, lblPadding63;
+    private JLabel lblPadding51, lblPadding52, lblPadding53, lblPadding54, lblPadding55, lblPadding56, lblPadding57, lblPadding58, lblPadding59, lblPadding60, lblPadding61,lblPadding62, lblPadding63,lblPadding64, lblPadding65;
     
-    private JLabel lblAddHouseHeading,lblhouseDetails, lblhouseID,lblhousenum, lblnumRooms, lblStreetName, lblRentPrice, lblType, lblArea, lblPostalCode;
+    private JLabel lblAddHouseHeading,lblhouseDetails, lblhouseID,lblhousenum, lblnumRooms, lblStreetName, lblRentPrice, lblType, lblArea;
     
-    private JLabel lblAddAgentHeading, lblagentDetails, lblEmployeeID, lblIDnum, lblagentName, lblagentSurname, lblMobileNum, lblemail;
+    private JLabel lblAddAgentHeading, lblagentDetails, lblEmployeeID, lblagentName, lblagentSurname, lblMobileNum, lblemail;
     
-    private JLabel lblEdithouseDetails, lblEdithouseID, lblEdithousenum, lblEditnumRooms, lblEditStreetName, lblEditRentPrice, lblEditCity, lblEditArea, lblEditPostalCode;
+    private JLabel lblEdithouseDetails, lblEdithouseID, lblEdithousenum, lblEditnumRooms, lblEditStreetName, lblEditRentPrice, lblisAvailable, lblEditArea, lblisActive;
     
-    private JLabel lblEditagentDetails, lblEditagentEmployeeID, lblEditagentIDnum, lblEditagentName, lblEditagentSurname, lblEditagentMobileNum, lblEditagentemail;
+    private JLabel lblEditagentDetails, lblEditagentEmployeeID, lblEditagentName, lblEditagentSurname, lblEditagentMobileNum, lblEditagentemail;
     //TextFields
     private JTextField txthouseID, txtHouseNum, txtRooms, txtStreetName, txtRentPrice, txtArea, txtPostalCode;
     
-    private JTextField txtEmployeeID, txtID, txtName, txtSurname, txtMobileNum, txtEmail;
+    private JTextField txtEmployeeID, txtName, txtSurname, txtMobileNum, txtEmail;
     
     private JTextField txtEditHouseID, txtEditHouseNum, txtEditRooms, txtEditCity, txtEditStreetName, txtEditRentPrice, txtEditArea, txtEditPostalCode; 
     
-    private JTextField txtEditagentIDnum, txtEditagentName, txtEditagentSurname, txtEditagentMobileNum, txtEditagentemail;
+    private JTextField txtEditagentName, txtEditagentSurname, txtEditagentMobileNum, txtEditagentemail;
     
     //Buttons
     private JButton btnAdd, btnView, btnLogout, btnEdit;
@@ -90,6 +94,9 @@ public class adminGUI extends JFrame implements ActionListener {
     private JComboBox cboEdithouseID;
     private JComboBox cboEditagentEmployeeID;
     private JComboBox cboType;
+    private JComboBox cboEditAvailable;
+    private JComboBox cboEditActive;
+    
     
     private DefaultListCellRenderer listRenderer;
 
@@ -241,9 +248,9 @@ public class adminGUI extends JFrame implements ActionListener {
         lblEdithousenum = new JLabel("House Number: ");
         lblEditStreetName = new JLabel("Street Name: ");
         lblEditArea = new JLabel("Area: ");
-        lblEditPostalCode = new JLabel("Postal Code: ");
         lblEditnumRooms = new JLabel("Number of Rooms: ");
         lblEditRentPrice = new JLabel("Rental Price(p/m): ");
+        lblisAvailable = new JLabel("Is the Rental Available? ");
         
         lblEditagentDetails = new JLabel("Edit Agent Details");
         lblEditagentEmployeeID = new JLabel("Employee ID: ");
@@ -251,6 +258,7 @@ public class adminGUI extends JFrame implements ActionListener {
         lblEditagentSurname = new JLabel("Surname: ");
         lblEditagentMobileNum = new JLabel("Mobile Number: ");
         lblEditagentemail = new JLabel("Email Address: ");
+        lblisActive = new JLabel("Is this employee active? ");
         
         lblPadding40 = new JLabel("");
         lblPadding41 = new JLabel("");
@@ -277,12 +285,13 @@ public class adminGUI extends JFrame implements ActionListener {
         lblPadding61 = new JLabel("");
         lblPadding62 = new JLabel("");
         lblPadding63 = new JLabel("");
+        lblPadding64 = new JLabel("");
+        lblPadding65 = new JLabel("");
         
         //TextFields
         txtEditHouseID = new JTextField();
         txtEditHouseNum = new JTextField();
         txtEditStreetName = new JTextField();
-        txtEditCity = new JTextField();
         txtEditArea = new JTextField();
         txtEditPostalCode = new JTextField();
         txtEditRooms = new JTextField();
@@ -294,8 +303,17 @@ public class adminGUI extends JFrame implements ActionListener {
         txtEditagentemail = new JTextField();
         
         //ComboBox
-        cboEdithouseID = new JComboBox();
-        cboEditagentEmployeeID = new JComboBox();
+        String house_idCBO[] = {"No Selection made"};
+        cboEdithouseID = new JComboBox(house_idCBO);
+        
+        String agent_idCBO[] = {"No Selection made"};
+        cboEditagentEmployeeID = new JComboBox(agent_idCBO);
+        
+        String Available[] = {"YES", "NO"};
+        cboEditAvailable = new JComboBox(Available);
+        
+        String Active[] = {"YES", "NO"};
+        cboEditActive = new JComboBox(Active);
         
         //Buttons
         btnEditHouseBack = new JButton("Back");
@@ -441,8 +459,8 @@ public class adminGUI extends JFrame implements ActionListener {
         
         //4th View - Edit Panel
         editPanel.setLayout(new GridLayout(2,1));
-        editHousePanel.setLayout(new GridLayout(8,3));
-        editAgentPanel.setLayout(new GridLayout(7,3));
+        editHousePanel.setLayout(new GridLayout(9,3));
+        editAgentPanel.setLayout(new GridLayout(8,3));
         
         editHousePanel.add(lblEdithouseDetails);
             lblEdithouseDetails.setFont(ft2);
@@ -450,6 +468,9 @@ public class adminGUI extends JFrame implements ActionListener {
         editHousePanel.add(lblEdithouseID);
             lblEdithouseID.setHorizontalAlignment(JLabel.CENTER);
         editHousePanel.add(cboEdithouseID);
+            listRenderer = new DefaultListCellRenderer();
+            listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
+            cboEdithouseID.setRenderer(listRenderer);
                 editHousePanel.add(lblPadding40);
                 editHousePanel.add(lblPadding41);
                 editHousePanel.add(lblPadding42);
@@ -487,7 +508,16 @@ public class adminGUI extends JFrame implements ActionListener {
         editHousePanel.add(txtEditRentPrice);
             txtEditRentPrice.setHorizontalAlignment(JLabel.CENTER);
                
-        editHousePanel.add(btnEditHouseUpdate);    
+        editHousePanel.add(lblPadding64);
+        
+        editHousePanel.add(lblisAvailable);
+            lblisAvailable.setHorizontalAlignment(JLabel.CENTER);
+        editHousePanel.add(cboEditAvailable);
+            listRenderer = new DefaultListCellRenderer();
+            listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
+            cboEditAvailable.setRenderer(listRenderer);
+            
+        editHousePanel.add(btnEditHouseUpdate);
         //end house panel edit
         
         //Agent Panel Edit
@@ -497,6 +527,9 @@ public class adminGUI extends JFrame implements ActionListener {
         editAgentPanel.add(lblEditagentEmployeeID);
             lblEditagentEmployeeID.setHorizontalAlignment(JLabel.CENTER);
         editAgentPanel.add(cboEditagentEmployeeID);
+            listRenderer = new DefaultListCellRenderer();
+            listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
+            cboEditagentEmployeeID.setRenderer(listRenderer);
                 editAgentPanel.add(lblPadding51);
                 editAgentPanel.add(lblPadding52);
                 editAgentPanel.add(lblPadding53);
@@ -527,8 +560,16 @@ public class adminGUI extends JFrame implements ActionListener {
         editAgentPanel.add(txtEditagentemail);
             txtEditagentemail.setHorizontalAlignment(JLabel.CENTER);
         
-            editAgentPanel.add(btnEditAgentUpdate);
+            editAgentPanel.add(lblPadding65);
+            
+        editAgentPanel.add(lblisActive);
+            lblisActive.setHorizontalAlignment(JLabel.CENTER);
+        editAgentPanel.add(cboEditActive);    
+            listRenderer = new DefaultListCellRenderer();
+            listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
+            cboEditActive.setRenderer(listRenderer);
         
+        editAgentPanel.add(btnEditAgentUpdate);  
    
         //1st Window    
         WindowAdminPanel.add(HeadingPanel, BorderLayout.NORTH);
@@ -564,6 +605,11 @@ public class adminGUI extends JFrame implements ActionListener {
         btnSaveHouse.addActionListener(this);
         btnSaveAgent.addActionListener(this);
         
+        cboEdithouseID.addActionListener(this);
+        cboEditAvailable.addActionListener(this);
+        cboEditagentEmployeeID.addActionListener(this);
+        cboEditActive.addActionListener(this);
+        
         this.add(WindowAdminPanel);
         this.setPreferredSize(new Dimension(1300, 600));
         this.pack();
@@ -576,7 +622,66 @@ public class adminGUI extends JFrame implements ActionListener {
     public static void main(String[] args) {
         new adminGUI().SetGUI();
     }
+    public void ClearFields(){
+        txtEmployeeID.setText(null);
+        txtName.setText(null);
+        txtSurname.setText(null);
+        txtMobileNum.setText(null);
+        txtEmail.setText(null);
+        
+        txthouseID.setText(null);
+        txtHouseNum.setText(null);
+        txtStreetName.setText(null);
+        txtArea.setText(null);
+        txtRooms.setText(null);
+        txtRentPrice.setText(null);
+    }
+    
+    public void fillHouseID_CBO(){
+        List<String> houseID_list = new ArrayList<>();
 
+        houseID_list = client.populateEditHouseID_CBO();
+        
+        for(int i = 0; i < houseID_list.size(); i++) {
+            String houseid_list = houseID_list.get(i);
+            cboEdithouseID.addItem(houseid_list);
+        }     
+    }
+    
+    public void fillAgentID_CBO(){
+        List<String> agentID_list = new ArrayList<>();
+
+        agentID_list = client.populateEditAgentID_CBO();
+        
+        for(int i = 0; i < agentID_list.size(); i++) {
+            String agentid_list = agentID_list.get(i);
+            cboEditagentEmployeeID.addItem(agentid_list);
+        }
+    }
+    
+    public void fillFields_houses(){
+        List<String> houseAvailable_list = new ArrayList<>();
+        
+        houseAvailable_list = client.populateEditHouseID_CBO();  
+        System.out.println("\nTHIS IS THE OUTPUT from DATABASE>> " + houseAvailable_list + "\n");
+        for(int i = 0; i < houseAvailable_list.size(); i++) {
+            String available_houseList = houseAvailable_list.get(0);
+            txtHouseNum.setText(available_houseList); 
+        }
+        for(int i = 0; i < houseAvailable_list.size(); i++) {
+            String available_houseList = houseAvailable_list.get(1);
+            txtStreetName.setText(available_houseList); 
+        }
+        for(int i = 0; i < houseAvailable_list.size(); i++) {
+            String available_houseList = houseAvailable_list.get(2);
+            txtRooms.setText(available_houseList); 
+        }
+        for(int i = 0; i < houseAvailable_list.size(); i++) {
+            String available_houseList = houseAvailable_list.get(3);
+            txtRentPrice.setText(available_houseList); 
+        }
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Add New House")) {
@@ -585,6 +690,8 @@ public class adminGUI extends JFrame implements ActionListener {
             editPanel.setVisible(false);
             WindowAdminPanel.add(addHousePanel, BorderLayout.CENTER);
             addHousePanel.setVisible(true);
+            
+            ClearFields();
         }
         else if(e.getActionCommand().equals("Add new Agent")) {
             WelcomeAdminPanel.setVisible(false);
@@ -592,6 +699,8 @@ public class adminGUI extends JFrame implements ActionListener {
             editPanel.setVisible(false);
             WindowAdminPanel.add(addAgentPanel, BorderLayout.CENTER);
             addAgentPanel.setVisible(true);
+            
+            ClearFields();
         }
         else if(e.getActionCommand().equals("Back")) {
             addHousePanel.setVisible(false);
@@ -599,6 +708,8 @@ public class adminGUI extends JFrame implements ActionListener {
             editPanel.setVisible(false);
             WindowAdminPanel.add(WelcomeAdminPanel, BorderLayout.CENTER);
             WelcomeAdminPanel.setVisible(true);
+            
+            ClearFields();
         }
         else if(e.getActionCommand().equals("Edit House/Agent Details")) {
             WelcomeAdminPanel.setVisible(false);
@@ -606,6 +717,11 @@ public class adminGUI extends JFrame implements ActionListener {
             addHousePanel.setVisible(false);
             WindowAdminPanel.add(editPanel, BorderLayout.CENTER);
             editPanel.setVisible(true);
+            
+            cboEdithouseID.removeAllItems();
+            cboEditagentEmployeeID.removeAllItems();
+            fillHouseID_CBO();
+            fillAgentID_CBO();
         }
         else if(e.getActionCommand().equals("LOG OUT")) {
             client.logOUT();
@@ -632,6 +748,7 @@ public class adminGUI extends JFrame implements ActionListener {
                 System.out.println("Client returns " + success);
             if(success) {
                 JOptionPane.showMessageDialog(this, "Customer has been successfully added!");
+                ClearFields();
             }
             else {
                 JOptionPane.showMessageDialog(this, "Customer could not be added due to technical issues");
@@ -651,10 +768,27 @@ public class adminGUI extends JFrame implements ActionListener {
                 System.out.println("Client returns " + success);
             if(success) {
                 JOptionPane.showMessageDialog(this, "Agent has been successfully added");
+                ClearFields();
             }
             else {
                 JOptionPane.showMessageDialog(this, "Agent could not be added due to technical issues");
             }
+        }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if(e.getSource().equals(cboEdithouseID)){
+           if(e.getStateChange() == ItemEvent.SELECTED) {
+               //cboEdithouseID.removeAllItems();
+               fillHouseID_CBO();
+            } 
+        }
+        else if(e.getSource().equals(cboEditagentEmployeeID)){
+            if(e.getStateChange() == ItemEvent.SELECTED){
+                //cboEditagentEmployeeID.removeAllItems();
+                fillAgentID_CBO();
+            }  
         }
     }
 }
