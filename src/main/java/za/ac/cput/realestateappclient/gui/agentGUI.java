@@ -27,11 +27,13 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+
 import za.ac.cput.realestateappclient.client.client;
 
 import za.ac.cput.realestateapp.domain.customer;
 import za.ac.cput.realestateapp.domain.agent;
 import za.ac.cput.realestateapp.domain.house;
+import za.ac.cput.realestateapp.domain.rentTransaction;
 
 import za.ac.cput.realestateappclient.gui.loginGUI;
 /**
@@ -386,7 +388,7 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
         btnSave.addActionListener(this);
         
         cboType.addItemListener(this);
-        //cboAvailable.addItemListener(this);
+        cboAvailable.addItemListener(this);
                 
         this.add(WindowAgentPanel);
         this.setPreferredSize(new Dimension(1300, 600));
@@ -414,16 +416,34 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
             String houseid_list = houseID_list.get(i);
             cboAvailable.addItem(houseid_list);
         }
+        
     }
     
     public void fillFields_houses(){
-        String type = (String)cboAvailable.getSelectedItem();
+        String available = (String)cboAvailable.getSelectedItem();
         
         List<String> houseAvailable_list = new ArrayList<>();
         
-        houseAvailable_list = client.populateFields(type);  
+        houseAvailable_list = client.populateFields(available);  
+        System.out.println("\nTHIS IS THE OUTPUT from DATABASE>> " + available + "\n");
+        for(int i = 0; i < houseAvailable_list.size(); i++) {
+            String available_houseList = houseAvailable_list.get(0);
+            txtHouseNum.setText(available_houseList); 
+        }
+        for(int i = 0; i < houseAvailable_list.size(); i++) {
+            String available_houseList = houseAvailable_list.get(1);
+            txtStreetName.setText(available_houseList); 
+        }
+        for(int i = 0; i < houseAvailable_list.size(); i++) {
+            String available_houseList = houseAvailable_list.get(2);
+            txtRooms.setText(available_houseList); 
+        }
+        for(int i = 0; i < houseAvailable_list.size(); i++) {
+            String available_houseList = houseAvailable_list.get(3);
+            txtRentPrice.setText(available_houseList); 
+        }
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Add New Customer")) {
@@ -462,12 +482,20 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
             int mobileNum = Integer.valueOf(txtMobileNum.getText());
             String emailAddress = txtEmail.getText();
             
+            int house_id = (int)cboAvailable.getSelectedItem();
+            int customer_id = Integer.valueOf(txtCustID.getText());
+            int rent_price = Integer.valueOf(txtRentPrice.getText());
+            
+            
             //customer customer = new customer(159, "Manny", "Barnes", 123, "Manny@gmail.com");
             customer customer = new customer(custID, name, surname, mobileNum, emailAddress);
+            rentTransaction rentTrans = new rentTransaction(0, customer_id, house_id, rent_price, 0);
             
-            boolean success = client.addCustomer(customer);
-                System.out.println("Client returns " + success);
-            if(success) {
+            boolean customerSuccess = client.addCustomer(customer);
+            boolean transactionSuccess = client.addTransaction(rentTrans);
+                System.out.println("Client returns " + transactionSuccess);
+                System.out.println("Client returns " + customerSuccess);
+            if(customerSuccess && transactionSuccess) {
                 JOptionPane.showMessageDialog(this, "Customer has been successfully added!");
             }
             else {
@@ -479,9 +507,16 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
 
     @Override
     public void itemStateChanged(ItemEvent e) {
-        if(e.getStateChange() == ItemEvent.SELECTED) {
+        if(e.getSource().equals(cboType)){
+           if(e.getStateChange() == ItemEvent.SELECTED) {
             cboAvailable.removeAllItems();
-            fillID_CBO();   
+            fillID_CBO();
+            } 
         }
+        else if(e.getSource().equals(cboAvailable)){
+            if(e.getStateChange() == ItemEvent.SELECTED){
+                fillFields_houses();
+            }  
+        } 
     }
 }   

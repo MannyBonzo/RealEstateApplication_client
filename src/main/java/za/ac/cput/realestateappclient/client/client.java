@@ -14,6 +14,7 @@ import java.util.List;
 import za.ac.cput.realestateapp.domain.customer;
 import za.ac.cput.realestateapp.domain.agent;
 import za.ac.cput.realestateapp.domain.house;
+import za.ac.cput.realestateapp.domain.rentTransaction;
 
 /**
  *
@@ -105,6 +106,22 @@ public class client {
         }
     }
     
+    public boolean addTransaction(rentTransaction transaction) {
+         try {
+            out.writeObject("recordTransaction");
+                out.flush();
+            out.writeObject(transaction);
+                out.flush();
+            
+            return in.readBoolean();
+        }
+        catch (IOException ioe)
+        {
+            System.out.println("IO Exception: " + ioe.getMessage());
+            return true;
+        }
+    }
+    
     public List<String> populateID_CBO(String type){
         try{
             List<String> house_id = null;
@@ -123,12 +140,12 @@ public class client {
         }
     }
     
-    public List<String> populateFields(String type){
+    public List<String> populateFields(String available){
         try{
             List<String> house_fields = null;
             out.writeObject("getAll_houseInfo");
                 out.flush();
-            out.writeObject(type);
+            out.writeObject(available);
                 out.flush();
             //response = (String)in.readObject();
             house_fields = (List<String>)in.readObject();
