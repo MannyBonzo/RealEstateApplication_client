@@ -221,7 +221,38 @@ public class client {
         }
     }
     
-    
+    //updateHouse
+    public boolean updateHouse(house house){
+        try {
+            out.writeObject("updateHouse");
+                out.flush();
+            out.writeObject(house);
+                out.flush();
+            
+            return in.readBoolean();
+        }
+        catch (IOException ioe)
+        {
+            System.out.println("IO Exception: " + ioe.getMessage());
+            return true;
+        }
+    }
+    //updateAgent
+    public boolean updateAgent(agent agent){
+        try {
+            out.writeObject("updateAgent");
+                out.flush();
+            out.writeObject(agent);
+                out.flush();
+            
+            return in.readBoolean();
+        }
+        catch (IOException ioe)
+        {
+            System.out.println("IO Exception: " + ioe.getMessage());
+            return true;
+        }
+    }
     
     public static void main(String[] args)
     {

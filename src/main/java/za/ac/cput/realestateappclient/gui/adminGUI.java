@@ -317,9 +317,9 @@ public class adminGUI extends JFrame implements ActionListener, ItemListener{
         
         //Buttons
         btnEditHouseBack = new JButton("Back");
-        btnEditHouseUpdate = new JButton("Update");
+        btnEditHouseUpdate = new JButton("Update House");
         btnEditAgentBack = new JButton("Back");
-        btnEditAgentUpdate = new JButton("Update");
+        btnEditAgentUpdate = new JButton("Update Agent");
         //End 4th View - Edit details
         
         
@@ -626,7 +626,8 @@ public class adminGUI extends JFrame implements ActionListener, ItemListener{
     
     public static void main(String[] args) {
         new adminGUI().SetGUI();
-    }
+    }  
+    
     public void ClearFields(){
         txtEmployeeID.setText(null);
         txtName.setText(null);
@@ -640,6 +641,19 @@ public class adminGUI extends JFrame implements ActionListener, ItemListener{
         txtArea.setText(null);
         txtRooms.setText(null);
         txtRentPrice.setText(null);
+        
+        txtEditHouseNum.setText(null);
+        txtEditStreetName.setText(null);
+        txtEditArea.setText(null);
+        txtEditRooms.setText(null);
+        txtEditRentPrice.setText(null);
+        cboEditAvailable.setSelectedIndex(0);
+        
+        txtEditagentName.setText(null);
+        txtEditagentSurname.setText(null);
+        txtEditagentMobileNum.setText(null);
+        txtEditagentemail.setText(null);
+        cboEditActive.setSelectedIndex(0);
     }
     
     public void fillHouseID_CBO(){
@@ -827,6 +841,70 @@ public class adminGUI extends JFrame implements ActionListener, ItemListener{
             }
             else {
                 JOptionPane.showMessageDialog(this, "Agent could not be added due to technical issues");
+            }
+        }
+        //Update House
+        else if(e.getActionCommand().equals("Update House")) {
+            //get Values
+            int cboSelection = Integer.parseInt(cboEdithouseID.getSelectedItem().toString());
+            int houseNum = Integer.valueOf(txtEditHouseNum.getText());
+            String streetName = txtEditStreetName.getText();
+            String area = txtEditArea.getText();
+            int numOfRooms = Integer.valueOf(txtEditRooms.getText());
+            int rent = Integer.valueOf(txtEditRentPrice.getText());
+            String type = "";
+            boolean available = false;
+            
+            if(cboEditActive.getSelectedItem() == "YES"){
+                available = true;
+            }
+            else{
+                available = false;
+            }
+            
+            //new Object
+            house house = new house(cboSelection,houseNum,streetName,area,numOfRooms,rent, type, available);
+            
+            //Check if house is added
+            boolean success = client.updateHouse(house);
+                System.out.println("Client returns " + success);
+            if(success) {
+                JOptionPane.showMessageDialog(this, "House has been successfully updated!");
+                ClearFields();
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "House could not be updated due to technical issues");
+            }
+        }
+        //updateAgent
+        else if(e.getActionCommand().equals("Update Agent")) {
+            //get Values
+            int cboSelection = Integer.parseInt(cboEditagentEmployeeID.getSelectedItem().toString());
+            String name = txtEditagentName.getText();
+            String surname = txtEditagentSurname.getText();
+            int mobile_number = Integer.valueOf(txtEditagentMobileNum.getText());    
+            String email = txtEditagentemail.getText();
+            boolean active = false;
+            
+            if(cboEditActive.getSelectedItem() == "YES"){
+                active = true;
+            }
+            else{
+                active = false;
+            }
+            
+            //new Object
+            agent agent = new agent(cboSelection,name,surname,mobile_number,email,active);
+            
+            //Check if house is added
+            boolean success = client.updateAgent(agent);
+                System.out.println("Client returns " + success);
+            if(success) {
+                JOptionPane.showMessageDialog(this, "Agent has been successfully updated!");
+                ClearFields();
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Agent could not be updated due to technical issues");
             }
         }
     }
