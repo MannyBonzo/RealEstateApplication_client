@@ -157,7 +157,7 @@ public class client {
             return null;
         }
     }
-    
+    //EDITING PANEL
     public List<String> populateEditHouseID_CBO() {
         try{
             List<String> house_id = null;
@@ -180,6 +180,40 @@ public class client {
             agent_id = (List<String>)in.readObject();
                 System.out.println("CLIENT>> " + agent_id);
             return agent_id;
+        }
+        catch(IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<String> populateEditHouseFields(String rental){
+        try{
+            List<String> house_fields = null;
+            out.writeObject("getAll_EDIThouseInfo");
+                out.flush();
+            out.writeObject(rental);
+                out.flush();
+            house_fields = (List<String>)in.readObject();
+                System.out.println("CLIENT>> " + house_fields);
+            return house_fields;
+        }
+        catch(IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<String> populateEditAgentFields(String agent_id){
+        try{
+            List<String> house_fields = null;
+            out.writeObject("getAll_EDITagentInfo");
+                out.flush();
+            out.writeObject(agent_id);
+                out.flush();
+            house_fields = (List<String>)in.readObject();
+                System.out.println("CLIENT>> " + house_fields);
+            return house_fields;
         }
         catch(IOException | ClassNotFoundException e) {
             e.printStackTrace();

@@ -309,10 +309,10 @@ public class adminGUI extends JFrame implements ActionListener, ItemListener{
         String agent_idCBO[] = {"No Selection made"};
         cboEditagentEmployeeID = new JComboBox(agent_idCBO);
         
-        String Available[] = {"YES", "NO"};
+        String Available[] = {"No Selection made","YES", "NO"};
         cboEditAvailable = new JComboBox(Available);
         
-        String Active[] = {"YES", "NO"};
+        String Active[] = {"No Selection made","YES", "NO"};
         cboEditActive = new JComboBox(Active);
         
         //Buttons
@@ -606,8 +606,13 @@ public class adminGUI extends JFrame implements ActionListener, ItemListener{
         btnSaveAgent.addActionListener(this);
         
         cboEdithouseID.addActionListener(this);
+        cboEdithouseID.addItemListener(this);
+        
         cboEditAvailable.addActionListener(this);
+        
         cboEditagentEmployeeID.addActionListener(this);
+        cboEditagentEmployeeID.addItemListener(this);
+        
         cboEditActive.addActionListener(this);
         
         this.add(WindowAdminPanel);
@@ -659,26 +664,78 @@ public class adminGUI extends JFrame implements ActionListener, ItemListener{
         }
     }
     
-    public void fillFields_houses(){
-        List<String> houseAvailable_list = new ArrayList<>();
+    //populateEditAgentFields
+    public void fillFields_agent(){
+        String agent_id = (String)cboEditagentEmployeeID.getSelectedItem();
         
-        houseAvailable_list = client.populateEditHouseID_CBO();  
-        System.out.println("\nTHIS IS THE OUTPUT from DATABASE>> " + houseAvailable_list + "\n");
-        for(int i = 0; i < houseAvailable_list.size(); i++) {
-            String available_houseList = houseAvailable_list.get(0);
-            txtHouseNum.setText(available_houseList); 
+        List<String> allAgent_list = new ArrayList<>();
+        
+        allAgent_list = client.populateEditAgentFields(agent_id);
+        
+        System.out.println("\nTHIS IS THE OUTPUT from DATABASE>> " + allAgent_list + "\n");
+        for(int i = 0; i < allAgent_list.size(); i++) {
+            String all_agentList = allAgent_list.get(0);
+            txtEditagentName.setText(all_agentList); 
         }
-        for(int i = 0; i < houseAvailable_list.size(); i++) {
-            String available_houseList = houseAvailable_list.get(1);
-            txtStreetName.setText(available_houseList); 
+        for(int i = 0; i < allAgent_list.size(); i++) {
+            String all_agentList = allAgent_list.get(1);
+            txtEditagentSurname.setText(all_agentList); 
         }
-        for(int i = 0; i < houseAvailable_list.size(); i++) {
-            String available_houseList = houseAvailable_list.get(2);
-            txtRooms.setText(available_houseList); 
+        for(int i = 0; i < allAgent_list.size(); i++) {
+            String all_agentList = allAgent_list.get(2);
+            txtEditagentMobileNum.setText(all_agentList); 
         }
-        for(int i = 0; i < houseAvailable_list.size(); i++) {
-            String available_houseList = houseAvailable_list.get(3);
-            txtRentPrice.setText(available_houseList); 
+        for(int i = 0; i < allAgent_list.size(); i++) {
+            String all_agentList = allAgent_list.get(3);
+            txtEditagentemail.setText(all_agentList); 
+        }
+        for(int i = 0; i < allAgent_list.size(); i++){
+            String all_agentList = allAgent_list.get(4);
+            if("true".equals(all_agentList)){
+                cboEditActive.setSelectedIndex(1);
+            }
+            else{
+                cboEditActive.setSelectedIndex(2);
+            }
+        }
+    }
+    
+    public void fillFields_houses(){
+        String rental = (String)cboEdithouseID.getSelectedItem();
+        
+        List<String> allRental_list = new ArrayList<>();
+        
+        allRental_list = client.populateEditHouseFields(rental);
+        
+        System.out.println("\nTHIS IS THE OUTPUT from DATABASE>> " + allRental_list + "\n");
+        for(int i = 0; i < allRental_list.size(); i++) {
+            String all_houseList = allRental_list.get(0);
+            txtEditHouseNum.setText(all_houseList); 
+        }
+        for(int i = 0; i < allRental_list.size(); i++) {
+            String all_houseList = allRental_list.get(1);
+            txtEditStreetName.setText(all_houseList); 
+        }
+        for(int i = 0; i < allRental_list.size(); i++) {
+            String all_houseList = allRental_list.get(2);
+            txtEditArea.setText(all_houseList); 
+        }
+        for(int i = 0; i < allRental_list.size(); i++) {
+            String all_houseList = allRental_list.get(3);
+            txtEditRooms.setText(all_houseList); 
+        }
+        for(int i = 0; i < allRental_list.size(); i++) {
+            String all_houseList = allRental_list.get(4);
+            txtEditRentPrice.setText(all_houseList); 
+        }
+        for(int i = 0; i < allRental_list.size(); i++){
+            String all_houseList = allRental_list.get(5);
+            if("true".equals(all_houseList)){
+                cboEditAvailable.setSelectedIndex(1);
+            }
+            else{
+                cboEditAvailable.setSelectedIndex(2);
+            }
         }
     }
     
@@ -718,8 +775,6 @@ public class adminGUI extends JFrame implements ActionListener, ItemListener{
             WindowAdminPanel.add(editPanel, BorderLayout.CENTER);
             editPanel.setVisible(true);
             
-            cboEdithouseID.removeAllItems();
-            cboEditagentEmployeeID.removeAllItems();
             fillHouseID_CBO();
             fillAgentID_CBO();
         }
@@ -779,16 +834,14 @@ public class adminGUI extends JFrame implements ActionListener, ItemListener{
     @Override
     public void itemStateChanged(ItemEvent e) {
         if(e.getSource().equals(cboEdithouseID)){
-           if(e.getStateChange() == ItemEvent.SELECTED) {
-               //cboEdithouseID.removeAllItems();
-               fillHouseID_CBO();
+            if(e.getStateChange() == ItemEvent.SELECTED) {
+                fillFields_houses();
             } 
-        }
+        }  
         else if(e.getSource().equals(cboEditagentEmployeeID)){
             if(e.getStateChange() == ItemEvent.SELECTED){
-                //cboEditagentEmployeeID.removeAllItems();
-                fillAgentID_CBO();
-            }  
+               fillFields_agent();
+            }
         }
-    }
+    } 
 }
