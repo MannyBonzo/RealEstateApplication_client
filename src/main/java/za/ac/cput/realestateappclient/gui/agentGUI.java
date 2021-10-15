@@ -368,6 +368,7 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
         defaultTableModel.addColumn("House_id");
         defaultTableModel.addColumn("Rent Price");
         defaultTableModel.addColumn("Commission");
+        //fillTable(table);
         
         //1st Window    
         WindowAgentPanel.add(HeadingPanel, BorderLayout.NORTH);
@@ -464,21 +465,22 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
         txtRentPrice.setText(null);
         
     }
-    
-    public void fillTable(){
-        List<String> transData_list = new ArrayList<>();
-
-        transData_list = client.populatetable_TransData();
+    public void fillTable(JTable table){
+        
+        DefaultTableModel Dtable = (DefaultTableModel) table.getModel();
+        
+        int Rows = Dtable.getRowCount();
+        
+        for(int i=Rows-1; i >= 0; i--){
+            Dtable.removeRow(i);
+        }
+        List<String> transData = client.populatetable_TransData();
         
         Object[] rowData = new Object[7];
-        for(int i = 0; i < transData_list.size();i++){
-            rowData[0] = transData_list.indexOf(0);
-            rowData[1] = transData_list.indexOf(1);
-            rowData[2] = transData_list.indexOf(2);
-            rowData[3] = transData_list.indexOf(3);
-            rowData[4] = transData_list.indexOf(4);
-            rowData[5] = transData_list.indexOf(5);
-            defaultTableModel.addRow(rowData);
+        for(int i = 0; i < transData.size();i++){
+            rowData[0] = transData.get(i);
+            //rowData[0] = transData.get(i).toString();
+            Dtable.addRow(rowData);
         }
     }
     
@@ -504,7 +506,7 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
             WindowAgentPanel.add(ViewCustomersPanel, BorderLayout.CENTER);
             ViewCustomersPanel.setVisible(true);
             
-            fillTable();
+            fillTable(table);
         }
         else if(e.getActionCommand().equals("LOG OUT")) {
             client.logOUT();
@@ -535,6 +537,7 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
             if(customerSuccess && transactionSuccess) {
                 JOptionPane.showMessageDialog(this, "Customer has been successfully added!");
                 ClearFields();
+                fillTable(table);
             }
             else {
                 JOptionPane.showMessageDialog(this, "Customer could not be added due to technical issues");
