@@ -26,7 +26,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import za.ac.cput.realestateappclient.client.client;
 
@@ -59,7 +61,8 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
     private JPanel ViewtablePanel; // Center in Main Border Layout Panel
     private JPanel ViewButtonPanel; // South in Main Border Layout Panel
     
-    private JTable CustViewTable; //table in Center Panel
+    private DefaultTableModel defaultTableModel;
+    private JTable table;
     
     //Labels
     private JLabel lblHeading, lblMenu, lblWelcome;
@@ -207,15 +210,11 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
             //ViewtablePanel.setBackground(new Color(75,200,78));
         ViewButtonPanel = new JPanel();
             //ViewButtonPanel.setBackground(new Color(75,200,255));    
-            
-        String[][] rec = {
-         {null, null, null, null},
-         {null, null, null, null},
-         {null, null, null, null},
-         {null, null, null, null},
-        };
-        String[] header = {"CustID", "Name", "Surname", "Phone Number"};
-        CustViewTable = new JTable();
+                    
+        defaultTableModel = new DefaultTableModel();
+        table = new JTable(defaultTableModel);
+        table.setPreferredScrollableViewportSize(new Dimension(900, 300));
+        table.setFillsViewportHeight(true);
         
         //Labels
         lblViewCustomer = new JLabel("All Customers");
@@ -362,7 +361,13 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
             lblViewCustomer.setFont(ft1);
         
         //CustViewTable(header);
-        ViewtablePanel.add(CustViewTable);
+        ViewtablePanel.add(new JScrollPane(table));
+        defaultTableModel.addColumn("Transaction_id");
+        defaultTableModel.addColumn("Customer_id");
+        defaultTableModel.addColumn("Customer Surname");
+        defaultTableModel.addColumn("House_id");
+        defaultTableModel.addColumn("Rent Price");
+        defaultTableModel.addColumn("Commission");
         
         //1st Window    
         WindowAgentPanel.add(HeadingPanel, BorderLayout.NORTH);
@@ -419,6 +424,7 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
         
     }
     
+    
     public void fillFields_houses(){
         String available = (String)cboAvailable.getSelectedItem();
         
@@ -456,7 +462,26 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
         txtRooms.setText(null);
         txtStreetName.setText(null);
         txtRentPrice.setText(null);
+        
     }
+    
+    public void fillTable(){
+        List<String> transData_list = new ArrayList<>();
+
+        transData_list = client.populatetable_TransData();
+        
+        Object[] rowData = new Object[7];
+        for(int i = 0; i < transData_list.size();i++){
+            rowData[0] = transData_list.indexOf(0);
+            rowData[1] = transData_list.indexOf(1);
+            rowData[2] = transData_list.indexOf(2);
+            rowData[3] = transData_list.indexOf(3);
+            rowData[4] = transData_list.indexOf(4);
+            rowData[5] = transData_list.indexOf(5);
+            defaultTableModel.addRow(rowData);
+        }
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Add New Customer")) {
@@ -478,6 +503,8 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
             addCustomerPanel.setVisible(false);
             WindowAgentPanel.add(ViewCustomersPanel, BorderLayout.CENTER);
             ViewCustomersPanel.setVisible(true);
+            
+            fillTable();
         }
         else if(e.getActionCommand().equals("LOG OUT")) {
             client.logOUT();
@@ -494,11 +521,12 @@ public class agentGUI extends JFrame implements ActionListener, ItemListener {
             String emailAddress = txtEmail.getText();
             
             int house_id = Integer.parseInt(cboAvailable.getSelectedItem().toString());
+            String customer_surname = txtSurname.getText();
             int customer_id = Integer.valueOf(txtCustID.getText());
             int rent_price = Integer.valueOf(txtRentPrice.getText());
             
             customer customer = new customer(custID, name, surname, mobileNum, emailAddress);
-            rentTransaction rentTrans = new rentTransaction(0, customer_id, house_id, rent_price, 0);
+            rentTransaction rentTrans = new rentTransaction(0, customer_id, customer_surname, house_id, rent_price, 0, false);
             
             boolean customerSuccess = client.addCustomer(customer);
             boolean transactionSuccess = client.addTransaction(rentTrans);

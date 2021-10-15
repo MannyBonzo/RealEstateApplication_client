@@ -254,6 +254,22 @@ public class client {
         }
     }
     
+    //getAll_transData
+    public List<String> populatetable_TransData() {
+        try{
+            List<String> transData = null;
+            out.writeObject("getAll_transData");
+            out.flush();
+            transData = (List<String>)in.readObject();
+                System.out.println("CLIENT>> " + transData);
+            return transData;
+        }
+        catch(IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     public static void main(String[] args)
     {
         new client();

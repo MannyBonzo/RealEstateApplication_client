@@ -26,6 +26,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
+
 import za.ac.cput.realestateapp.domain.house;
 import za.ac.cput.realestateapp.domain.agent;
 import za.ac.cput.realestateappclient.client.client;
